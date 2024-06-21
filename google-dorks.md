@@ -126,7 +126,7 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com ext:txt
 
-### 30. JUICY EXTENSIONS
+### 30. INTERESTING EXTENSIONS
 > site:example.com ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess
 
 ### 31. SENSITIVE INFORMATION
