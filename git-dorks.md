@@ -1,3 +1,9 @@
+# Github Dorks
+
+A list of Github Dorks for Bug Bounty.
+
+---
+
 ### Search for composer.json
 
 > https://github.com/search?q=example.com+composer.json&type=Code
