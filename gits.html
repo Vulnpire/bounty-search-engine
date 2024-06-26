@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Search Engine</title>
+    <style>
+        /* Same CSS as in index.html */
+        body { font-family: 'Courier New', Courier, monospace; background-color: #0f0f0f; color: #00ff00; margin: 0; padding: 0; text-align: center; overflow-x: hidden; }
+        .container { margin: 50px auto; max-width: 800px; padding: 20px; border: 1px solid #00ff00; border-radius: 10px; background-color: #1a1a1a; box-shadow: 0 0 10px #00ff00; }
+        h1 { color: #00ff00; font-size: 2em; margin-bottom: 10px; }
+        p { font-size: 1.2em; color: #00ff00; }
+        .gcse-search { margin-top: 20px; }
+        input.gsc-input { border: 2px solid #00ff00 !important; background-color: #333 !important; color: #00ff00 !important; font-family: 'Courier New', Courier, monospace; }
+        input.gsc-search-button { border: 2px solid #00ff00 !important; background-color: #1a1a1a !important; color: #00ff00 !important; font-family: 'Courier New', Courier, monospace; }
+        .footer { margin-top: 50px; font-size: 0.9em; color: #008000; }
+        .animated-text { display: inline-block; font-size: 1.2em; animation: flicker 2s infinite alternate; }
+        @keyframes flicker { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .dorks-container { margin: 50px auto; max-width: 800px; padding: 20px; border: 1px solid #00ff00; border-radius: 10px; background-color: #1a1a1a; box-shadow: 0 0 10px #00ff00; color: #f0f0f0; }
+        .dorks-container h2, .dorks-container p, .dorks-container a { color: #00ff00; }
+        .dorks-container ul { list-style-type: none; padding: 0; }
+        .dorks-container li { margin-bottom: 10px; }
+        .dorks-container a { text-decoration: none; color: #69f0ae; }
+        .dorks-container a:hover { text-decoration: underline; }
+        .dorks-container a.clicked { color: #2196F3; }
+        .dorks-container p.description { margin-bottom: 5px; font-weight: bold; }
+        .dorks-container section { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 20px; }
+        .dorks-container h2 { margin-bottom: 10px; }
+        .dorks-container ul.link-list { margin: 0; padding: 0; list-style-type: none; }
+        .dorks-container ul.link-list li { margin-bottom: 10px; }
+        .paging { margin-top: 20px; display: flex; justify-content: center; }
+        .paging a { color: #00ff00; padding: 5px 10px; border: 1px solid #00ff00; border-radius: 5px; margin: 0 5px; text-decoration: none; }
+        .paging a:hover { background-color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GitHub Search Engine</h1>
+        <p class="animated-text">Dig into repositories...</p>
+        <p>Be cautious, knowledge is power!</p>
+    </div>
+
+    <!-- GitHub Dorks Section -->
+    <div class="dorks-container">
+        <h2>GitHub Dorks for Bug Bounty</h2>
+        <p>
+            <a href="https://github.com/Vulnpire/bounty-search-engine" target="_blank">GitHub Repo</a><br><br>
+        </p>
+        <label for="domainInput">Enter a domain:</label>
+        <input type="text" id="domainInput" placeholder="example.com">
+        <button id="updateDomainButton">Update Domain</button>
+        <ul id="dorkList"></ul>
+    </div>
+
+    <!-- Paging Links -->
+    <div class="paging">
+        <a href="index.html">Google Dorks</a>
+        <a href="shodan.html">Shodan Dorks</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2024 GitHub Search Engine | Stay Anonymous
+    </div>
+
+    <script>
+        // Functionality for GitHub Dorks section
+        let originalDorks = [];
+
+        async function fetchDorks() {
+            const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/git-dorks.md";
+            const response = await fetch(url);
+            const text = await response.text();
+
+            const dorkList = document.getElementById("dorkList");
+            const regex = /(?:^### (.+)|^> (.+))/gm;
+            let match;
+            let title = '';
+            let firstDork = true;
+
+            while ((match = regex.exec(text)) !== null) {
+                if (match[1]) {
+                    // Title match
+                    title = match[1];
+                } else {
+                    // Dork match
+                    if (firstDork) {
+                        firstDork = false;
+                        continue;
+                    }
+                    const dork = match[2];
+                    originalDorks.push(dork);
+                    const listItem = createDorkListItem(dork, title);
+                    dorkList.appendChild(listItem);
+                }
+            }
+        }
+
+        let prevTitle = '';
+
+        function createDorkListItem(dork, description) {
+            const githubLink = `https://github.com/search?q=${encodeURIComponent(dork + ' password')}&type=Code`;
+
+            const listItem = document.createElement("li");
+
+            if (description && description !== prevTitle) {
+                const desc = document.createElement("p");
+                desc.textContent = description;
+                desc.classList.add("description");
+                listItem.appendChild(desc);
+                prevTitle = description;
+            }
+
+            const link = document.createElement("a");
+            link.href = githubLink;
+            link.textContent = dork;
+            link.classList.add("dorkLink");
+            link.target = "_blank";
+            link.addEventListener("click", () => {
+                link.classList.add("clicked");
+            });
+
+            listItem.appendChild(link);
+
+            return listItem;
+        }
+
+        function updateDomain() {
+            const domainInput = document.getElementById("domainInput");
+            const domains = domainInput.value.split(",").map(domain => domain.trim());
+
+            if (domains.length === 0) return;
+
+            const dorkLinks = document.querySelectorAll(".dorkLink");
+            dorkLinks.forEach((link, index) => {
+                let originalDork = originalDorks[index];
+
+                // For site:example.com
+                if (/site:"?example\[?\.\]?com"?/i.test(originalDork)) {
+                    const joinedDomains = domains.map(d => `site:${d}`).join(" | ");
+                    originalDork = originalDork.replace(/site:"?example\[?\.\]?com"?/gi, joinedDomains);
+                }
+
+                // For "example.com"
+                else if (/["']example\[?\.\]?com["']/i.test(originalDork)) {
+                    const joinedDomains = domains.map(d => `"${d}"`).join(" | ");
+                    originalDork = originalDork.replace(/["']example\[?\.\]?com["']/gi, joinedDomains);
+                }
+
+                const updatedLink = `https://github.com/search?q=${encodeURIComponent(originalDork + ' password')}&type=Code`;
+
+                link.textContent = originalDork;
+                link.href = updatedLink;
+                link.classList.remove("clicked"); // Reset the color
+            });
+        }
+
+        const updateDomainButton = document.getElementById("updateDomainButton");
+        updateDomainButton.addEventListener("click", updateDomain);
+
+        const domainInput = document.getElementById("domainInput");
+        domainInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                updateDomain();
+            }
+        });
+
+        fetchDorks();
+    </script>
+</body>
+</html>
