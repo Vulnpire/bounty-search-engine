@@ -148,3 +148,5 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com inurl:=
 
 > site:example.com inurl:&
+
+> site:example.com inurl:?id= | intext:?id=
