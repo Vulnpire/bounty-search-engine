@@ -4,27 +4,27 @@ is designed to streamline your search for interesting information across various
 
 ## Features
 
-* Customized Dorks for Targeted Searches
+### Customized Dorks for Targeted Searches
 
 Our search engine utilizes pre-defined dorks to uncover sensitive or noteworthy information on your target websites. This approach helps you quickly identify potential security vulnerabilities and other interesting data.
 
-* Multi-Platform Support
+### Multi-Platform Support
 
 The search engine provides specific tools for different platforms, including:
 
-* Google Dorks
+### Google Dorks
 
 Uses Google search operators to find publicly accessible and sensitive information across the web.
 
-* Shodan Dorks:
+### Shodan Dorks
 
 Leverages Shodan's powerful search engine to find exposed devices and services with specific vulnerabilities or misconfigurations.
 
-* GitHub Dorks:
+### GitHub Dorks
 
 Focused on searching through GitHub repositories to find exposed secrets, API keys, and other sensitive information using GitHub's search capabilities.
 
-* User-Friendly Interface
+### User-Friendly Interface
 
 With a simple and intuitive interface, you can easily enter your target domain and update the search queries to suit your needs. The tool then presents you with clickable links that direct you to the search results.
 
