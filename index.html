@@ -37,23 +37,42 @@
             color: #00ff00;
         }
 
-        .gcse-search {
+        .search-container {
             margin-top: 20px;
         }
 
-        /* Custom search input style */
-        input.gsc-input {
-            border: 2px solid #00ff00 !important;
-            background-color: #333 !important;
-            color: #00ff00 !important;
+        input.search-input {
+            border: 2px solid #00ff00;
+            background-color: #333;
+            color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            width: 80%;
         }
 
-        input.gsc-search-button {
-            border: 2px solid #00ff00 !important;
-            background-color: #1a1a1a !important;
-            color: #00ff00 !important;
+        button.search-button {
+            border: 2px solid #00ff00;
+            background-color: #1a1a1a;
+            color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .results-container {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .result-item a {
+            color: #00ff00;
+            text-decoration: none;
         }
 
         .footer {
@@ -82,7 +101,6 @@
             }
         }
 
-        /* Styles for Google Dorks section */
         .dorks-container {
             margin: 50px auto;
             max-width: 800px;
@@ -127,27 +145,6 @@
             font-weight: bold;
         }
 
-        .dorks-container section {
-            margin-top: 20px;
-            border-top: 1px solid #ccc;
-            padding-top: 20px;
-        }
-
-        .dorks-container h2 {
-            margin-bottom: 10px;
-        }
-
-        .dorks-container ul.link-list {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .dorks-container ul.link-list li {
-            margin-bottom: 10px;
-        }
-
-        /* Paging styles */
         .paging {
             margin-top: 20px;
             display: flex;
@@ -166,6 +163,27 @@
         .paging a:hover {
             background-color: #333;
         }
+
+        .pagination-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pagination-controls button {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .pagination-controls button:disabled {
+            background-color: #333;
+            border: 2px solid #333;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -173,9 +191,12 @@
     <div class="container">
         <h1>Bounty Search Engine</h1>
         <p class="animated-text">Find what you're looking for in the matrix...</p>
-        <!-- Google Custom Search Engine Script -->
-        <script async src="https://cse.google.com/cse.js?cx=759aed2f7b4be4b83"></script>
-        <div class="gcse-search"></div>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Enter search term...">
+            <button id="searchButton" class="search-button">Search</button>
+        </div>
+        <div class="results-container" id="resultsContainer"></div>
+        <div class="pagination-controls" id="paginationControls"></div>
         <p>Be cautious, knowledge is power!</p>
     </div>
 
@@ -203,6 +224,132 @@
     </div>
 
     <script>
+        // Variables for search
+        let currentPage = 1;
+        const resultsPerPage = 10;  // Google Custom Search returns up to 10 results per page
+
+        // Array of API keys for rotation
+        const apiKeys = [
+            'AIzaSyC1dJFqnh9aU3XzT0atBz9jm7PpU58IKf0',
+            'AIzaSyAC9XwXC7PC_gq1Rv1ImrLoM28hShlscDo'
+
+        ];
+        let currentApiKeyIndex = 0;
+
+        // Get current API key
+        function getCurrentApiKey() {
+            return apiKeys[currentApiKeyIndex];
+        }
+
+        // Switch to the next API key
+        function switchApiKey() {
+            currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+        }
+
+        // Function to perform search with pagination
+        async function performSearch(startIndex = 1) {
+            const query = document.getElementById("searchInput").value;
+            const resultsContainer = document.getElementById("resultsContainer");
+            resultsContainer.innerHTML = '';
+
+            if (!query) {
+                resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
+                return;
+            }
+
+            // Anti-Bot Delay
+            const delay = Math.floor(Math.random() * 1000);
+
+            setTimeout(async () => {
+                const apiKey = getCurrentApiKey();
+                const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
+                const url = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    // Check for quota exceeded error
+                    if (response.status === 403 || (data.error && data.error.code === 403)) {
+                        // Switch to the next API key
+                        switchApiKey();
+                        // Retry the request with the next API key
+                        performSearch(startIndex);
+                        return;
+                    }
+
+                    if (data.items) {
+                        displayResults(data.items);
+                        setupPaginationControls(data.queries, startIndex);
+                    } else {
+                        resultsContainer.innerHTML = '<p>No results found.</p>';
+                    }
+                } catch (error) {
+                    resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
+                }
+            }, delay);
+        }
+
+        // Display search results
+        function displayResults(items) {
+            const resultsContainer = document.getElementById("resultsContainer");
+            items.forEach(item => {
+                const resultItem = document.createElement("div");
+                resultItem.className = "result-item";
+
+                const title = document.createElement("a");
+                title.href = item.link;
+                title.textContent = item.title;
+                title.target = "_blank";
+
+                const snippet = document.createElement("p");
+                snippet.textContent = item.snippet;
+
+                resultItem.appendChild(title);
+                resultItem.appendChild(snippet);
+
+                resultsContainer.appendChild(resultItem);
+            });
+        }
+
+        // Setup pagination controls
+        function setupPaginationControls(queries, startIndex) {
+            const paginationControls = document.getElementById("paginationControls");
+            paginationControls.innerHTML = '';
+
+            // Pagination data from the API response
+            const totalResults = parseInt(queries.request[0].totalResults, 10);
+            const previousIndex = startIndex - resultsPerPage;
+            const nextIndex = startIndex + resultsPerPage;
+
+            // Previous button
+            const prevButton = document.createElement("button");
+            prevButton.textContent = "Previous";
+            prevButton.disabled = startIndex <= 1;
+            prevButton.addEventListener("click", () => performSearch(previousIndex));
+            paginationControls.appendChild(prevButton);
+
+            // Next button
+            const nextButton = document.createElement("button");
+            nextButton.textContent = "Next";
+            nextButton.disabled = nextIndex > totalResults;
+            nextButton.addEventListener("click", () => performSearch(nextIndex));
+            paginationControls.appendChild(nextButton);
+        }
+
+        // Event listeners for search
+        document.getElementById("searchButton").addEventListener("click", () => {
+            currentPage = 1;
+            performSearch(currentPage);
+        });
+
+        document.getElementById("searchInput").addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                currentPage = 1;
+                performSearch(currentPage);
+            }
+        });
+
         // Functionality for Google Dorks section
         let originalDorks = [];
 
@@ -310,6 +457,7 @@
             }
         });
 
+        // Fetch dorks on load
         fetchDorks();
     </script>
 </body>
