@@ -45,6 +45,10 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com:8888
 
+### RCE PRONE PARAMETERS
+
+> inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:& site:example.com
+
 ### UPLOAD
 
 > site:example.com "choose file"
