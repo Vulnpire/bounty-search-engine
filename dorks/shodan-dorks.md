@@ -13,7 +13,7 @@ A list of Shodan Dorks for Bug Bounty.
 
 ### Finds Swagger UI interfaces hosted
 
-> http.title:"Swagger UI — " hostname:"*.example.com"
+> http.title:"Swagger UI — "hostname:"example.com"
 
 ### Finds Swagger UI interfaces using SSL certificates
 
@@ -21,7 +21,7 @@ A list of Shodan Dorks for Bug Bounty.
 
 ### Finds open directory listings
 
-> http.title:"Directory Listing" hostname:"*.example.com"
+> http.title:"Directory Listing" hostname:"example.com"
 
 ### Finds open directory listings using SSL certificates
 
@@ -29,7 +29,7 @@ A list of Shodan Dorks for Bug Bounty.
 
 ### Finds subdomains of example.com excluding Akamai, Ghost, Cloudflare, and Cloudfront hosts
 
-> hostname:"*.example.com" "-AkamaiGHost" "-GHost" "-Cloudflare" "-Cloudfront"
+> hostname:"example.com" "-AkamaiGHost" "-GHost" "-Cloudflare" "-Cloudfront"
 
 ### Finds SSL certificates
 
@@ -69,15 +69,15 @@ A list of Shodan Dorks for Bug Bounty.
 
 ### Finds Samba servers
 
-> "Authentication: disabled" port:445 product:"Samba" hostname:"*.example.com"
+> "Authentication: disabled" port:445 product:"Samba" hostname:"example.com"
 
 ### Finds expired SSL certificates
 
-> ssl.cert.expired:true hostname:".example.com"
+> ssl.cert.expired:true hostname:"example.com"
 
 ### Finds SSL certificates with common names
 
-> ssl.cert.subject.commonName:".example.com"
+> ssl.cert.subject.commonName:"example.com"
 
 ### Finds open directory indexes
 
