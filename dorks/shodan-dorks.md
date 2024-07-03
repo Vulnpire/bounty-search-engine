@@ -81,5 +81,5 @@ A list of Shodan Dorks for Bug Bounty.
 
 ### Finds open directory indexes
 
-> http.title:"Index of /" hostname:"*.example.com"
+> http.title:"Index of /" hostname:"example.com"
 
