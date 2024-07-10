@@ -10,13 +10,9 @@ A list of Google Dorks for Bug Bounty.
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
 > site:example.com ext:php inurl:?
-
 > site:example.com ext:aspx inurl:?
-
 > site:example.com ext:asp inurl:?
-
 > site:example.com ext:jsp inurl:?
-
 > site:example.com ext:jspx inurl:?
 
 ### FORM
@@ -26,23 +22,36 @@ A list of Google Dorks for Bug Bounty.
 ### LOGIN
 
 > site:example.com inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register
-
 > site:example.com inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal
+
+### FILECATALST FILE TRANSFER
+
+> site:example.com intitle:"FileCatalyst file transfer solution"
+
+### XAMPP DEFAULT DASHBOARD PANELS
+
+> site:example.com intext:"Welcome to XAMPP for *" intitle:"Welcome to XAMPP" inurl:/dashboard
+> site:example.com intext:apache + mariadb + php + perl intext:"welcome to xampp for *"
+> site:example.com intitle:"welcome to xampp"
+
+### CONFIG.YAML
+
+> site:example.com "configmap.yaml" | "config.yaml" | "*-config.yaml" intitle:"index of"
+
+### SETTINGS.PHP
+
+> site:example.com intitle:"index of" setting.php
 
 ### ADMIN
 
 > site:example.com inurl:admin | administrator | adm | login | l0gin | wp-login
-
 > intitle:"login" "admin" site:example.com
-
 > intitle:"index of / admin" site:example.com
-
 > inurl:admin intitle:admin intext:admin site:example.com
 
 ### PORTS
 
 > site:example.com inurl:"8443/login.jsp"
-
 > site:example.com:8888
 
 ### RCE PRONE PARAMETERS
@@ -88,13 +97,23 @@ A list of Google Dorks for Bug Bounty.
 ### PHPLDAPADMIN
 
 > site:example.com intitle:"phpLDAPadmin"
-
 > site:example.com intitle:"phpLDAPadmin" inurl:cmd.php
+
+### ENV VARS
+
+site:example.com intitle:"index of" env.cgi
+
+### OEMBED API
+
+> site:example.com inurl:"/wp-json/oembed/1.0/embed?url="
+
+### APACHE STRUTS 2.x PATH TRAVERSAL
+
+> site:example.com intitle:"Apache Struts 2.5" "index of /" -git
 
 ### JENKINS
 
 > site:example.com intitle:"Dashboard [Jenkins]"
-
 > site:example.com intitle:"Sign in [Jenkins]" inurl:"login?from" 
 
 ### WERKZEUG
@@ -112,7 +131,6 @@ A list of Google Dorks for Bug Bounty.
 ### JOOMLA
 
 > site:example.com intext:"Joomla! - Open Source Content Management"
-
 > site:example.com site:*/joomla/administrator
 
 ### EMAIL
@@ -158,15 +176,10 @@ A list of Google Dorks for Bug Bounty.
 ### PDF|DOC|XLS|CSV|PPT|TXT
 
 > site:example.com ext:pdf
-
 > site:example.com ext:doc | ext:docx
-
 > site:example.com ext:xls | ext:xlsx
-
 > site:example.com ext:csv
-
 > site:example.com ext:ppt | ext:pptx
-
 > site:example.com ext:txt
 
 ### INTERESTING EXTENSIONS
@@ -176,13 +189,10 @@ A list of Google Dorks for Bug Bounty.
 ### SENSITIVE INFORMATION
 
 > site:example.com ext:doc | ext:docx intext:"internal use only | confidential"
-
 > site:example.com ext:pdf intext:"internal use only | confidential"
 
 ### ENDPOINTS
 
 > site:example.com inurl:=
-
 > site:example.com inurl:&
-
 > site:example.com inurl:?id= | intext:?id=
