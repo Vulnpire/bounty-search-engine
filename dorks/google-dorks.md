@@ -24,7 +24,7 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register
 > site:example.com inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal
 
-### FILECATALST FILE TRANSFER
+### FILECATALYST FILE TRANSFER
 
 > site:example.com intitle:"FileCatalyst file transfer solution"
 
