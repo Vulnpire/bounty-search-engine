@@ -362,89 +362,175 @@
     // Functionality for Google Dorks section
     let originalDorks = [];
 
-    async function fetchDorks() {
-        const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/dorks/google-dorks.md";
-        const response = await fetch(url);
-        const text = await response.text();
+	async function fetchDorks() {
+		const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/dorks/google-dorks.md";
+		const response = await fetch(url);
+		const text = await response.text();
 
-        const dorkList = document.getElementById("dorkList");
-        const regex = /(?:^### (.+)|^> (.+))/gm;
-        let match;
-        let title = '';
-        let firstDork = true;
+		const dorkList = document.getElementById("dorkList");
+		dorkList.innerHTML = ''; // Clear previous dorks
 
-        while ((match = regex.exec(text)) !== null) {
-            if (match[1]) {
-                // Title match
-                title = match[1];
-            } else {
-                // Dork match
-                if (firstDork) {
-                    firstDork = false;
-                    continue;
-                }
-                const dork = match[2];
-                originalDorks.push(dork);
-                const listItem = createDorkListItem(dork, title);
-                dorkList.appendChild(listItem);
-            }
-        }
-    }
+		const regex = /(?:^### (.+)|^> (.+))/gm;
+		let match;
+		let title = '';
+		let isFirstDork = true;
+
+		while ((match = regex.exec(text)) !== null) {
+		    if (match[1]) {
+		        // Title match
+		        title = match[1];
+		    } else {
+		        // Dork match
+		        if (isFirstDork) {
+		            isFirstDork = false;
+		            continue;
+		        }
+		        const dork = match[2];
+		        const listItem = createDorkListItem(dork, title);
+		        dorkList.appendChild(listItem);
+		    }
+		}
+	}
+
+
+
 
     let prevTitle = '';
 
-    function createDorkListItem(dork, description) {
-        const listItem = document.createElement("li");
+	function createDorkListItem(dork, description) {
+		const listItem = document.createElement("li");
 
-        if (description && description !== prevTitle) {
-            const desc = document.createElement("p");
-            desc.textContent = description;
-            desc.classList.add("description");
-            listItem.appendChild(desc);
-            prevTitle = description;
-        }
+		if (description) {
+		    const desc = document.createElement("p");
+		    desc.textContent = description;
+		    desc.classList.add("description");
+		    listItem.appendChild(desc);
+		}
 
-        const link = document.createElement("a");
-        link.textContent = dork;
-        link.classList.add("dorkLink");
-        link.href = "#";
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            const updatedDork = currentDomains.length > 0 ?
-                currentDomains.map(domain => dork.replace(/example\.com/g, domain)).join(' OR ') :
-                dork;
-            document.getElementById("searchInput").value = updatedDork;
-            performSearch(1, updatedDork);
-        });
+		const link = document.createElement("a");
+		link.textContent = dork;
+		link.classList.add("dorkLink");
+		link.href = "#";
+		link.addEventListener("click", (event) => {
+		    event.preventDefault();
+		    const updatedDork = currentDomains.length > 0 ?
+		        currentDomains.map(domain => {
+		            let updated = dork.replace(/example\.com/g, domain);
+		            if (!updated.includes('inurl:?')) {
+		                updated += ' inurl:?';
+		            }
+		            return updated;
+		        }).join(' OR ') :
+		        dork;
+		    document.getElementById("searchInput").value = updatedDork;
+		    performSearch(1, updatedDork);
+		});
 
-        listItem.appendChild(link);
+		listItem.appendChild(link);
 
-        return listItem;
-    }
+		return listItem;
+	}
 
-    function updateDomain() {
-        const domainInput = document.getElementById("domainInput");
-        currentDomains = domainInput.value.split(",").map(domain => domain.trim());
 
-        if (currentDomains.length === 0) return;
 
-        const dorkLinks = document.querySelectorAll(".dorkLink");
-        dorkLinks.forEach((link, index) => {
-            const originalDork = originalDorks[index];
-            const updatedDork = currentDomains.map(domain => originalDork.replace(/example\.com/g, domain)).join(' OR ');
-            link.textContent = updatedDork;
-        });
+	// Function to update domain dorks
+	function updateDomain() {
+		const domainInput = document.getElementById("domainInput");
+		currentDomains = domainInput.value.split(",").map(domain => domain.trim());
 
-        // Update the search input with the new domain
-        const searchInput = document.getElementById("searchInput");
-        searchInput.value = currentDomains.map(domain => searchInput.value.replace(/example\.com/g, domain)).join(' OR ');
-    }
+		if (currentDomains.length === 0) return;
 
-    document.getElementById("updateDomainButton").addEventListener("click", () => {
-        updateDomain();
-        currentPage = 1;
-        performSearch(currentPage);
-    });
+		refreshDorksDisplay();
+	}
 
-    fetchDorks();
+	// Function to refresh the displayed dorks
+	function refreshDorksDisplay() {
+		const dorkList = document.getElementById("dorkList");
+		dorkList.innerHTML = ''; // Clear the existing list
+
+		originalDorks.forEach((dork, index) => {
+		    const updatedDork = currentDomains.map(domain => dork.replace(/example\.com/g, `site:${domain}`)).join(' OR ');
+		    const listItem = createDorkListItem(updatedDork, getDorkDescription(dork));
+		    dorkList.appendChild(listItem);
+		});
+
+		// Clear the search input before updating
+		const searchInput = document.getElementById("searchInput");
+		searchInput.value = '';
+	}
+
+	// Function to get description for a dork (dummy implementation, replace as needed)
+	function getDorkDescription(dork) {
+		// This function should return the appropriate description for a given dork.
+		// For now, it's a placeholder.
+		return 'Description for ' + dork;
+	}
+
+	// Create dork list item
+	function createDorkListItem(dork, description) {
+		const listItem = document.createElement("li");
+
+		if (description && description !== prevTitle) {
+		    const desc = document.createElement("p");
+		    desc.textContent = description;
+		    desc.classList.add("description");
+		    listItem.appendChild(desc);
+		    prevTitle = description;
+		}
+
+		const link = document.createElement("a");
+		link.textContent = dork;
+		link.classList.add("dorkLink");
+		link.href = "#";
+		link.addEventListener("click", (event) => {
+		    event.preventDefault();
+		    const searchInput = document.getElementById("searchInput");
+		    searchInput.value = dork;
+		    performSearch(1, dork);
+		});
+
+		listItem.appendChild(link);
+
+		return listItem;
+	}
+
+	// Update event listener for the button
+	document.getElementById("updateDomainButton").addEventListener("click", () => {
+		updateDomain();
+	});
+
+	// Functionality for fetching initial dorks (Contribute?)
+	async function fetchDorks() {
+		const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/dorks/google-dorks.md";
+		const response = await fetch(url);
+		const text = await response.text();
+
+		const regex = /(?:^### (.+)|^> (.+))/gm;
+		let match;
+		let title = '';
+		let firstDork = true;
+
+		while ((match = regex.exec(text)) !== null) {
+		    if (match[1]) {
+		        // Title match
+		        title = match[1];
+		    } else {
+		        // Dork match
+		        if (firstDork) {
+		            firstDork = false;
+		            continue;
+		        }
+		        const dork = match[2];
+		        originalDorks.push(dork);
+		        const listItem = createDorkListItem(dork, title);
+		        const dorkList = document.getElementById("dorkList");
+		        dorkList.appendChild(listItem);
+		    }
+		}
+	}
+
+	// Fetch initial dorks
+	fetchDorks();
+
+
 </script>
