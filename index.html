@@ -362,15 +362,15 @@
 	// Functionality for Google Dorks section
 	let originalDorks = [];
 
-	// Function to update domain dorks
-	function updateDomain() {
-		const domainInput = document.getElementById("domainInput");
-		currentDomains = domainInput.value.split(",").map(domain => domain.trim());
+// Function to update domain dorks
+function updateDomain() {
+    const domainInput = document.getElementById("domainInput");
+    currentDomains = domainInput.value.split(",").map(domain => domain.trim());
 
-		if (currentDomains.length === 0) return;
+    if (currentDomains.length === 0) return;
 
-		refreshDorksDisplay();
-	}
+    refreshDorksDisplay();
+}
 
 	// Function to refresh the displayed dorks
 	function refreshDorksDisplay() {
@@ -399,6 +399,19 @@
 		const searchInput = document.getElementById("searchInput");
 		searchInput.value = '';
 	}
+
+	// Event listener for pressing Enter in domain input field
+	document.getElementById("domainInput").addEventListener("keypress", (event) => {
+		if (event.key === "Enter") {
+		    updateDomain();
+		}
+	});
+
+	// Event listener for the button to update domains
+	document.getElementById("updateDomainButton").addEventListener("click", () => {
+		updateDomain();
+	});
+
 
 
 
