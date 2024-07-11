@@ -99,9 +99,13 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com intitle:"phpLDAPadmin"
 > site:example.com intitle:"phpLDAPadmin" inurl:cmd.php
 
+### EDITOR UPLOAD
+
+> site:example.com inurl:"/fckeditor/editor/filemanager/connectors"
+
 ### ENV VARS
 
-site:example.com intitle:"index of" env.cgi
+> site:example.com intitle:"index of" env.cgi
 
 ### OEMBED API
 
