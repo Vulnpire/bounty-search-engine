@@ -199,8 +199,10 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com ext:doc | ext:docx intext:"internal use only | confidential"
 > site:example.com ext:pdf intext:"internal use only | confidential"
 
-### ENDPOINTS
+### TOP 5 SQLI
 
-> site:example.com inurl:=
-> site:example.com inurl:&
-> site:example.com inurl:?id= | intext:?id=
+> site:example.com inurl:view_items.php?id=
+> site:example.com inurl:content.php?id=
+> site:example.com inurl:product.php?product_id=
+> site:example.com inurl:product_list.php?id=
+> site:example.com inurl:home.php?cat=
