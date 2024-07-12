@@ -224,288 +224,266 @@
     </div>
 
 <script>
-	// Variables for search
-	let currentPage = 1;
-	const resultsPerPage = 10;  // Google Custom Search returns up to 10 results per page
+    // Variables for search
+    let currentPage = 1;
+    const resultsPerPage = 10;  // Google Custom Search returns up to 10 results per page
 
-	// Array of API keys for rotation
-	const apiKeys = [
-		'AIzaSyC1dJFqnh9aU3XzT0atBz9jm7PpU58IKf0',
-		'AIzaSyAC9XwXC7PC_gq1Rv1ImrLoM28hShlscDo',
-		'AIzaSyAmIVZk_swF9RQ-6mmp-jJa03njc-MKyfM'
-	];
-	let currentApiKeyIndex = 0;
+    // Array of API keys for rotation
+    const apiKeys = [
+        'AIzaSyC1dJFqnh9aU3XzT0atBz9jm7PpU58IKf0',
+        'AIzaSyAC9XwXC7PC_gq1Rv1ImrLoM28hShlscDo',
+        'AIzaSyAmIVZk_swF9RQ-6mmp-jJa03njc-MKyfM'
+    ];
+    let currentApiKeyIndex = 0;
 
-	// Get current API key
-	function getCurrentApiKey() {
-		return apiKeys[currentApiKeyIndex];
-	}
+    // Get current API key
+    function getCurrentApiKey() {
+        return apiKeys[currentApiKeyIndex];
+    }
 
-	// Switch to the next API key
-	function switchApiKey() {
-		currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
-	}
+    // Switch to the next API key
+    function switchApiKey() {
+        currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+    }
 
-	// Global variable to store the current domain(s)
-	let currentDomains = [];
-	let userAgents = [];
+    // Global variable to store the current domain(s)
+    let currentDomains = [];
 
-	async function fetchUserAgents() {
-    const response = await fetch('https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/utils/user-agents.txt');
-    const text = await response.text();
-    userAgents = text.split('\n').filter(ua => ua.trim().length > 0);
+// Function to perform search with pagination
+async function performSearch(startIndex = 1, query = null) {
+    if (!query) {
+        query = document.getElementById("searchInput").value;
+    }
+    const resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.innerHTML = '';
+
+    if (!query) {
+        resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
+        return;
+    }
+
+    // Replace example.com with the user-provided domain(s)
+    if (currentDomains.length > 0) {
+        query = currentDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
+    }
+
+    // Anti-Bot Delay
+    const delay = Math.floor(Math.random() * 1000);
+
+    setTimeout(async () => {
+        const apiKey = getCurrentApiKey();
+        const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
+        const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
+
+        try {
+            const response = await fetch(proxyUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const jsonData = JSON.parse(data.contents);
+
+            // Check for quota exceeded error
+            if (jsonData.error && jsonData.error.code === 429) {
+                // Switch to the next API key
+                switchApiKey();
+                // Retry the request with the next API key
+                performSearch(startIndex, query);
+                return;
+            }
+
+            if (jsonData.items) {
+                displayResults(jsonData.items);
+                setupPaginationControls(jsonData.queries, startIndex, query);
+            } else {
+                resultsContainer.innerHTML = '<p>No results found.</p>';
+            }
+        } catch (error) {
+            resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
+        }
+    }, delay);
 }
 
-	// Get a random user agent
-	function getRandomUserAgent() {
-		return userAgents[Math.floor(Math.random() * userAgents.length)];
-	}
+    // Display search results
+    function displayResults(items) {
+        const resultsContainer = document.getElementById("resultsContainer");
+        items.forEach(item => {
+            const resultItem = document.createElement("div");
+            resultItem.className = "result-item";
+
+            const title = document.createElement("a");
+            title.href = item.link;
+            title.textContent = item.title;
+            title.target = "_blank";
+
+            const snippet = document.createElement("p");
+            snippet.textContent = item.snippet;
+
+            resultItem.appendChild(title);
+            resultItem.appendChild(snippet);
+
+            resultsContainer.appendChild(resultItem);
+        });
+    }
+
+    // Setup pagination controls
+    function setupPaginationControls(queries, startIndex, query) {
+        const paginationControls = document.getElementById("paginationControls");
+        paginationControls.innerHTML = '';
+
+        // Pagination data from the API response
+        const totalResults = parseInt(queries.request[0].totalResults, 10);
+        const previousIndex = startIndex - resultsPerPage;
+        const nextIndex = startIndex + resultsPerPage;
+
+        // Previous button
+        const prevButton = document.createElement("button");
+        prevButton.textContent = "Previous";
+        prevButton.disabled = startIndex <= 1;
+        prevButton.addEventListener("click", () => performSearch(previousIndex, query));
+        paginationControls.appendChild(prevButton);
+
+        // Next button
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Next";
+        nextButton.disabled = nextIndex > totalResults;
+        nextButton.addEventListener("click", () => performSearch(nextIndex, query));
+        paginationControls.appendChild(nextButton);
+    }
+
+    // Event listeners for search
+    document.getElementById("searchButton").addEventListener("click", () => {
+        currentPage = 1;
+        performSearch(currentPage);
+    });
+
+    document.getElementById("domainInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            updateDomain();
+            currentPage = 1;
+            performSearch(currentPage);
+        }
+    });
 
 
-	// Function to perform search with pagination
-	async function performSearch(startIndex = 1, query = null) {
-		if (!query) {
-		    query = document.getElementById("searchInput").value;
-		}
-		const resultsContainer = document.getElementById("resultsContainer");
-		resultsContainer.innerHTML = '';
+    document.getElementById("searchInput").addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            currentPage = 1;
+            performSearch(currentPage);
+        }
+    });
 
-		if (!query) {
-		    resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
-		    return;
-		}
+    // Functionality for Google Dorks section
+    let originalDorks = [];
 
-		// Replace example.com with the user-provided domain(s)
-		if (currentDomains.length > 0) {
-		    query = currentDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
-		}
+    async function fetchDorks() {
+        const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/dorks/google-dorks.md";
+        const response = await fetch(url);
+        const text = await response.text();
 
-		// Anti-Bot Delay
-		const delay = Math.floor(Math.random() * 1000);
+        const dorkList = document.getElementById("dorkList");
+        const regex = /(?:^### (.+)|^> (.+))/gm;
+        let match;
+        let title = '';
+        let firstDork = true;
 
-		setTimeout(async () => {
-		    const apiKey = getCurrentApiKey();
-		    const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
-		    const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
-		    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
+        while ((match = regex.exec(text)) !== null) {
+            if (match[1]) {
+                // Title match
+                title = match[1];
+            } else {
+                // Dork match
+                if (firstDork) {
+                    firstDork = false;
+                    continue;
+                }
+                const dork = match[2];
+                originalDorks.push(dork);
+                const listItem = createDorkListItem(dork, title);
+                dorkList.appendChild(listItem);
+            }
+        }
+    }
 
-		    try {
-		        const response = await fetch(proxyUrl);
-		        if (!response.ok) {
-		            throw new Error('Network response was not ok');
-		        }
-		        const data = await response.json();
-		        const jsonData = JSON.parse(data.contents);
+    let prevTitle = '';
 
-		        // Check for quota exceeded error
-		        if (jsonData.error && jsonData.error.code === 429) {
-		            // Switch to the next API key
-		            switchApiKey();
-		            // Retry the request with the next API key
-		            performSearch(startIndex, query);
-		            return;
-		        }
+    function createDorkListItem(dork, description) {
+        const listItem = document.createElement("li");
 
-		        if (jsonData.items) {
-		            displayResults(jsonData.items);
-		            setupPaginationControls(jsonData.queries, startIndex, query);
-		        } else {
-		            resultsContainer.innerHTML = '<p>No results found.</p>';
-		        }
-		    } catch (error) {
-		        resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
-		    }
-		}, delay);
-	}
+        if (description && description !== prevTitle) {
+            const desc = document.createElement("p");
+            desc.textContent = description;
+            desc.classList.add("description");
+            listItem.appendChild(desc);
+            prevTitle = description;
+        }
 
+        const link = document.createElement("a");
+        link.textContent = dork;
+        link.classList.add("dorkLink");
+        link.href = "#";
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const updatedDork = currentDomains.length > 0 ?
+                currentDomains.map(domain => dork.replace(/example\.com/g, domain)).join(' OR ') :
+                dork;
+            document.getElementById("searchInput").value = updatedDork;
+            performSearch(1, updatedDork);
+        });
 
-	// Display search results
-	function displayResults(items) {
-		const resultsContainer = document.getElementById("resultsContainer");
-		items.forEach(item => {
-		    const resultItem = document.createElement("div");
-		    resultItem.className = "result-item";
+        listItem.appendChild(link);
 
-		    const title = document.createElement("a");
-		    title.href = item.link;
-		    title.textContent = item.title;
-		    title.target = "_blank";
+        return listItem;
+    }
 
-		    const snippet = document.createElement("p");
-		    snippet.textContent = item.snippet;
+    function updateDomain() {
+        const domainInput = document.getElementById("domainInput");
+        currentDomains = domainInput.value.split(",").map(domain => domain.trim());
 
-		    resultItem.appendChild(title);
-		    resultItem.appendChild(snippet);
+        // Update the dork links with the new domains
+        const dorkLinks = document.querySelectorAll(".dorkLink");
+        dorkLinks.forEach((link, index) => {
+            const originalDork = originalDorks[index];
+            const updatedDork = currentDomains.length > 0 ?
+                currentDomains.map(domain => originalDork.replace(/example\.com/g, domain)).join(' OR ') :
+                originalDork;
+            link.textContent = updatedDork;
+        });
 
-		    resultsContainer.appendChild(resultItem);
-		});
-	}
+        // Update the search input with the new domain, but do not trigger search automatically
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = currentDomains.length > 0 ? currentDomains.join(' OR ') : '';
 
-	// Setup pagination controls
-	function setupPaginationControls(queries, startIndex, query) {
-		const paginationControls = document.getElementById("paginationControls");
-		paginationControls.innerHTML = '';
+        clearSearchResults();
+    }
 
-		// Pagination data from the API response
-		const totalResults = parseInt(queries.request[0].totalResults, 10);
-		const previousIndex = startIndex - resultsPerPage;
-		const nextIndex = startIndex + resultsPerPage;
+    function clearSearchResults() {
+        const resultsContainer = document.getElementById("resultsContainer");
+        resultsContainer.innerHTML = '';
+    }
 
-		// Previous button
-		const prevButton = document.createElement("button");
-		prevButton.textContent = "Previous";
-		prevButton.disabled = startIndex <= 1;
-		prevButton.addEventListener("click", () => performSearch(previousIndex, query));
-		paginationControls.appendChild(prevButton);
+// Event listener for dork links
+document.querySelectorAll(".dorkLink").forEach(link => {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+        const updatedDork = this.textContent.trim();
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = updatedDork;
 
-		// Next button
-		const nextButton = document.createElement("button");
-		nextButton.textContent = "Next";
-		nextButton.disabled = nextIndex > totalResults;
-		nextButton.addEventListener("click", () => performSearch(nextIndex, query));
-		paginationControls.appendChild(nextButton);
-	}
-
-	// Event listeners for search
-	document.getElementById("searchButton").addEventListener("click", () => {
-		currentPage = 1;
-		performSearch(currentPage);
-	});
-
-	document.getElementById("searchInput").addEventListener("keypress", (event) => {
-		if (event.key === "Enter") {
-		    currentPage = 1;
-		    performSearch(currentPage);
-		}
-	});
-
-	// Functionality for Google Dorks section
-	let originalDorks = [];
-
-// Function to update domain dorks
-function updateDomain() {
-    const domainInput = document.getElementById("domainInput");
-    currentDomains = domainInput.value.split(",").map(domain => domain.trim());
-
-    if (currentDomains.length === 0) return;
-
-    refreshDorksDisplay();
-}
-
-	// Function to refresh the displayed dorks
-	function refreshDorksDisplay() {
-		const dorkList = document.getElementById("dorkList");
-		dorkList.innerHTML = ''; // Clear the existing list
-
-		originalDorks.forEach((dork, index) => {
-		    let updatedDork = dork;
-
-		    if (currentDomains.length > 0) {
-		        updatedDork = currentDomains.map(domain => {
-		            if (!dork.includes('site:')) {
-		                updatedDork = dork.replace(/example\.com/g, `site:${domain}`);
-		            } else {
-		                updatedDork = dork.replace(/example\.com/g, `${domain}`);
-		            }
-		            return updatedDork;
-		        }).join(' OR ');
-		    }
-
-		    const listItem = createDorkListItem(updatedDork, getDorkDescription(dork));
-		    dorkList.appendChild(listItem);
-		});
-
-		// Clear the search input before updating
-		const searchInput = document.getElementById("searchInput");
-		searchInput.value = '';
-	}
-
-	// Event listener for pressing Enter in domain input field
-	document.getElementById("domainInput").addEventListener("keypress", (event) => {
-		if (event.key === "Enter") {
-		    updateDomain();
-		}
-	});
-
-	// Event listener for the button to update domains
-	document.getElementById("updateDomainButton").addEventListener("click", () => {
-		updateDomain();
-	});
+        // Perform search with updated dork
+        currentPage = 1;
+        performSearch(currentPage);
+    });
+});
 
 
 
+    document.getElementById("updateDomainButton").addEventListener("click", () => {
+        updateDomain();
+        currentPage = 1;
+        performSearch(currentPage);
+    });
 
-	// Function to get description for a dork (dummy implementation)
-	function getDorkDescription(dork) {
-		// For now, it's a placeholder.
-		return 'Description for ' + dork;
-	}
-
-	// Create dork list item
-	function createDorkListItem(dork, description) {
-		const listItem = document.createElement("li");
-
-		if (description) {
-		    const desc = document.createElement("p");
-		    desc.textContent = description;
-		    desc.classList.add("description");
-		    listItem.appendChild(desc);
-		}
-
-		const link = document.createElement("a");
-		link.textContent = dork;
-		link.classList.add("dorkLink");
-		link.href = "#";
-		link.addEventListener("click", (event) => {
-		    event.preventDefault();
-		    const searchInput = document.getElementById("searchInput");
-		    searchInput.value = dork;
-		    performSearch(1, dork);
-		});
-
-		listItem.appendChild(link);
-
-		return listItem;
-	}
-
-	// Update event listener for the button
-	document.getElementById("updateDomainButton").addEventListener("click", () => {
-		updateDomain();
-	});
-
-	// Functionality for fetching initial dorks (Contribute?)
-	async function fetchDorks() {
-		const url = "https://raw.githubusercontent.com/Vulnpire/bounty-search-engine/main/dorks/google-dorks.md";
-		const response = await fetch(url);
-		const text = await response.text();
-
-		const regex = /(?:^### (.+)|^> (.+))/gm;
-		let match;
-		let title = '';
-		let firstDork = true;
-
-		while ((match = regex.exec(text)) !== null) {
-		    if (match[1]) {
-		        // Title match
-		        title = match[1];
-		    } else {
-		        // Dork match
-		        if (firstDork) {
-		            firstDork = false;
-		            continue;
-		        }
-		        const dork = match[2];
-		        originalDorks.push(dork);
-		        const listItem = createDorkListItem(dork, title);
-		        const dorkList = document.getElementById("dorkList");
-		        dorkList.appendChild(listItem);
-		    }
-		}
-	}
-
-	// Fetch initial dorks
-	fetchDorks();
-
-
-
+    fetchDorks();
 </script>
