@@ -10,9 +10,13 @@ A list of Google Dorks for Bug Bounty.
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
 > site:example.com ext:php inurl:?
+ 
 > site:example.com ext:aspx inurl:?
+ 
 > site:example.com ext:asp inurl:?
+
 > site:example.com ext:jsp inurl:?
+
 > site:example.com ext:jspx inurl:?
 
 ### FORM
