@@ -37,9 +37,120 @@
             color: #00ff00;
         }
 
-        .search-container {
-            margin-top: 20px;
-        }
+		.search-container {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		.search-container .search-input {
+			display: block;
+			width: 80%;
+			max-width: 300px;
+			margin: 10px auto;
+			padding: 10px;
+			border: 2px solid #00ff00;
+			background-color: #333;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1em;
+		}
+
+		.search-container .search-button {
+			display: block;
+			width: 80%;
+			max-width: 150px;
+			margin: 0 auto 10px auto;
+			padding: 10px 20px;
+			border: 2px solid #00ff00;
+			background-color: #1a1a1a;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1em;
+			cursor: pointer;
+			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+		}
+
+		.search-container .search-button:hover {
+			background-color: #00ff00;
+			color: #1a1a1a;
+		}
+
+		.dorks-container .search-container {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.dorks-container .search-input, .search-container .search-input {
+			text-align: center;
+		}
+
+		.dorks-container .search-input {
+			display: block;
+			width: 80%;
+			max-width: 400px;
+			margin: 10px auto;
+			padding: 10px;
+			border: 2px solid #00ff00;
+			background-color: #333;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1em;
+		}
+
+		.dorks-container .search-button {
+			display: block;
+			width: 80%;
+			max-width: 200px;
+			margin: 0 auto 10px auto;
+			padding: 10px 20px;
+			border: 2px solid #00ff00;
+			background-color: #1a1a1a;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1em;
+			cursor: pointer;
+			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+		}
+
+		.search-container, .dorks-container .search-container {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		.search-container .search-input, .dorks-container .search-input {
+			display: block;
+			width: 90%;
+			max-width: 800px;
+			margin: 20px auto;
+			padding: 8px;
+			border: 2px solid #00ff00;
+			background-color: #333;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1.2em;
+			text-align: center;
+		}
+
+		.search-container .search-button, .dorks-container .search-button {
+			display: block;
+			width: 60%;
+			max-width: 300px;
+			margin: 10px auto;
+			padding: 8px 20px;
+			border: 2px solid #00ff00;
+			background-color: #1a1a1a;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1.2em;
+			cursor: pointer;
+			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+			text-align: center;
+		}
+
+		.search-container .search-button:hover, .dorks-container .search-button:hover {
+			background-color: #00ff00;
+			color: #1a1a1a;
+		}
 
         input.search-input {
             border: 2px solid #00ff00;
@@ -70,7 +181,7 @@
 
         .results-container {
             margin-top: 30px;
-            text-align: left;
+            text-align: center;
         }
 
         .result-item {
@@ -204,9 +315,7 @@
 			font-family: 'Courier New', Courier, monospace;
 			padding: 10px 20px;
 			cursor: pointer;
-			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-			margin-left: 20px; /* Increase the margin to create more space */
-			margin-top: 10px; /* Adjust top margin to center vertically */
+			text-align: center;
 		}
 
 
@@ -250,27 +359,28 @@
     <div class="container">
         <h1>Bounty Search Engine</h1>
         <p class="animated-text">Find what you're looking for in the matrix...</p>
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Enter search term...">
-            <button id="searchButton" class="search-button">Search</button>
-        </div>
+		<div class="search-container">
+			<button id="searchButton" class="search-button">Search</button>
+			<input type="text" id="searchInput" class="search-input" placeholder="Enter search term...">
+		</div>
         <div class="results-container" id="resultsContainer"></div>
         <div class="pagination-controls" id="paginationControls"></div>
         <p>Be cautious, knowledge is power!</p>
     </div>
 
     <!-- Google Dorks Section -->
-    <div class="dorks-container">
-        <h2>Google Dorks for Bug Bounty</h2>
-        <p>
-            <a href="https://github.com/Vulnpire/bounty-search-engine" target="_blank">GitHub Repo</a><br><br>
-        </p>
-        <div class="search-container">
-            <input type="text" id="domainInput" class="search-input" placeholder="Enter domain...">
-            <button id="updateDomainButton" class="search-button">Update Domain</button>
-        </div>
-        <ul id="dorkList"></ul>
-    </div>
+	<div class="dorks-container">
+		<h2>Google Dorks for Bug Bounty</h2>
+		<p>
+		    <a href="https://github.com/Vulnpire/bounty-search-engine" target="_blank">GitHub Repo</a><br><br>
+		</p>
+		<div class="search-container">
+		    <input type="text" id="domainInput" class="search-input" placeholder="Enter domain...">
+		    <button id="updateDomainButton" class="search-button">Update Domain</button>
+		</div>
+		<ul id="dorkList"></ul>
+	</div>
+
 
 	<div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background-color: #1a1a1a; color: #00ff00; padding: 10px; border: 2px solid #00ff00; border-radius: 5px;">
 		Notification
@@ -555,6 +665,7 @@
             updateDomain();
         }
     });
+
 
     // Event listener for "Update Domain" button
     document.getElementById("updateDomainButton").addEventListener("click", function(event) {
