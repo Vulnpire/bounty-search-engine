@@ -50,14 +50,23 @@
             width: 80%;
         }
 
-        button.search-button {
-            border: 2px solid #00ff00;
-            background-color: #1a1a1a;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
+		button.search-button {
+			border: 2px solid #00ff00;
+			background-color: #1a1a1a;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			padding: 10px 20px;
+			cursor: pointer;
+			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+			margin-left: 20px;
+			margin-top: 10px;
+		}
+
+		button.search-button:hover {
+			background-color: #00ff00;
+			color: #1a1a1a;
+		}
+
 
         .results-container {
             margin-top: 30px;
@@ -188,23 +197,23 @@
             vertical-align: middle; /* Align vertically with the button */
         }
 
-        #updateDomainButton {
-            border: 2px solid #00ff00;
-            background-color: #1a1a1a;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-            margin-left: 20px; /* Increase the margin to create more space */
-            margin-top: 10px; /* Adjust top margin to center vertically */
-        }
+		#updateDomainButton {
+			border: 2px solid #00ff00;
+			background-color: #1a1a1a;
+			color: #00ff00;
+			font-family: 'Courier New', Courier, monospace;
+			padding: 10px 20px;
+			cursor: pointer;
+			transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+			margin-left: 20px; /* Increase the margin to create more space */
+			margin-top: 10px; /* Adjust top margin to center vertically */
+		}
 
 
-        #updateDomainButton:hover {
-            background-color: #00ff00;
-            color: #1a1a1a;
-        }
+		#updateDomainButton:hover {
+			background-color: #00ff00;
+			color: #1a1a1a;
+		}
 
         #updateDomainButton {
             border: 2px solid #00ff00;
@@ -263,6 +272,12 @@
         <ul id="dorkList"></ul>
     </div>
 
+	<div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background-color: #1a1a1a; color: #00ff00; padding: 10px; border: 2px solid #00ff00; border-radius: 5px;">
+		Notification
+	</div>
+
+
+
     <!-- Paging Links -->
     <div class="paging">
         <a href="shodan.html">Shodan Dorks</a>
@@ -301,60 +316,70 @@
     let currentDomains = [];
 
     // Function to perform search with pagination
-    async function performSearch(startIndex = 1, query = null) {
-        if (!query) {
-            query = document.getElementById("searchInput").value;
-        }
-        const resultsContainer = document.getElementById("resultsContainer");
-        resultsContainer.innerHTML = '';
+	async function performSearch(startIndex = 1, query = null, notify = false) {
+		if (!query) {
+		    query = document.getElementById("searchInput").value;
+		}
+		const resultsContainer = document.getElementById("resultsContainer");
+		resultsContainer.innerHTML = '';
 
-        if (!query) {
-            resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
-            return;
-        }
+		if (!query) {
+		    resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
+		    return;
+		}
 
-        // Replace example.com with the user-provided domain(s)
-        if (currentDomains.length > 0) {
-            query = currentDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
-        }
+		// Replace example.com with the user-provided domain(s)
+		if (currentDomains.length > 0) {
+		    query = currentDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
+		}
 
-        // Anti-Bot Delay
-        const delay = Math.floor(Math.random() * 1000);
+		// Anti-Bot Delay
+		const delay = Math.floor(Math.random() * 1000);
 
-        setTimeout(async () => {
-            const apiKey = getCurrentApiKey();
-            const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
-            const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
+		setTimeout(async () => {
+		    const apiKey = getCurrentApiKey();
+		    const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
+		    const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
+		    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
 
-            try {
-                const response = await fetch(proxyUrl);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                const jsonData = JSON.parse(data.contents);
+		    try {
+		        const response = await fetch(proxyUrl);
+		        if (!response.ok) {
+		            throw new Error('Network response was not ok');
+		        }
+		        const data = await response.json();
+		        const jsonData = JSON.parse(data.contents);
 
-                // Check for quota exceeded error
-                if (jsonData.error && jsonData.error.code === 429) {
-                    // Switch to the next API key
-                    switchApiKey();
-                    // Retry the request with the next API key
-                    performSearch(startIndex, query);
-                    return;
-                }
+		        // Check for quota exceeded error
+		        if (jsonData.error && jsonData.error.code === 429) {
+		            // Switch to the next API key
+		            switchApiKey();
+		            // Retry the request with the next API key
+		            performSearch(startIndex, query, notify);
+		            return;
+		        }
 
-                if (jsonData.items) {
-                    displayResults(jsonData.items);
-                    setupPaginationControls(jsonData.queries, startIndex, query);
-                } else {
-                    resultsContainer.innerHTML = '<p>No results found.</p>';
-                }
-            } catch (error) {
-                resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
-            }
-        }, delay);
-    }
+		        if (jsonData.items) {
+		            displayResults(jsonData.items);
+		            setupPaginationControls(jsonData.queries, startIndex, query);
+		            if (notify) {
+		                showNotification(`Results found`); // ${jsonData.items.length}
+		            }
+		        } else {
+		            resultsContainer.innerHTML = '<p>No results found.</p>';
+		            if (notify) {
+		                showNotification('No results found');
+		            }
+		        }
+		    } catch (error) {
+		        resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
+		        if (notify) {
+		            showNotification('Error fetching search results');
+		        }
+		    }
+		}, delay);
+	}
+
 
     // Display search results
     function displayResults(items) {
@@ -404,26 +429,36 @@
     }
 
     // Event listener for search button
-    document.getElementById("searchButton").addEventListener("click", function(event) {
-        event.preventDefault();
-        const searchInput = document.getElementById("searchInput").value.trim();
-        if (searchInput !== '') {
-            currentPage = 1;
-            performSearch(currentPage, searchInput);
-        }
-    });
+	document.getElementById("searchButton").addEventListener("click", function(event) {
+		event.preventDefault();
+		const searchInput = document.getElementById("searchInput").value.trim();
+		if (searchInput !== '') {
+		    currentPage = 1;
+		    performSearch(currentPage, searchInput, false); // Pass false to not show notification
+		}
+	});
+
+	function showNotification(message) {
+		const notification = document.getElementById("notification");
+		notification.textContent = message;
+		notification.style.display = "block";
+		clearTimeout(notification.timeout); // Clear any existing timeout to reset
+		notification.timeout = setTimeout(() => {
+		    notification.style.display = "none";
+		}, 3000);
+	}
 
     // Event listener for Enter key in search input
-    document.getElementById("searchInput").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            const searchInput = this.value.trim();
-            if (searchInput !== '') {
-                currentPage = 1;
-                performSearch(currentPage, searchInput);
-            }
-        }
-    });
+	document.getElementById("searchInput").addEventListener("keypress", function(event) {
+		if (event.key === "Enter") {
+		    event.preventDefault();
+		    const searchInput = this.value.trim();
+		    if (searchInput !== '') {
+		        currentPage = 1;
+		        performSearch(currentPage, searchInput, false); // Pass false to not show notification
+		    }
+		}
+	});
 
     // Functionality for Google Dorks section
     let originalDorks = [];
@@ -474,14 +509,14 @@
         link.textContent = dork;
         link.classList.add("dorkLink");
         link.href = "#";
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            const updatedDork = currentDomains.length > 0 ?
-                currentDomains.map(domain => dork.replace(/example\.com/g, domain)).join(' OR ') :
-                dork;
-            document.getElementById("searchInput").value = updatedDork;
-            performSearch(1, updatedDork);
-        });
+		link.addEventListener("click", (event) => {
+			event.preventDefault();
+			const updatedDork = currentDomains.length > 0 ?
+				currentDomains.map(domain => dork.replace(/example\.com/g, domain)).join(' OR ') :
+				dork;
+			document.getElementById("searchInput").value = updatedDork;
+			performSearch(1, updatedDork, true); // Pass true to show notification
+		});
 
         listItem.appendChild(link);
 
@@ -520,7 +555,6 @@
             updateDomain();
         }
     });
-
 
     // Event listener for "Update Domain" button
     document.getElementById("updateDomainButton").addEventListener("click", function(event) {
