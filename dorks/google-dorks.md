@@ -53,10 +53,32 @@ A list of Google Dorks for Bug Bounty.
 > intitle:"index of / admin" site:example.com
 > inurl:admin intitle:admin intext:admin site:example.com
 
-### PORTS
+### TOP 7 SQLI
 
-> site:example.com inurl:"8443/login.jsp"
-> site:example.com:8888
+> site:example.com (inurl:?id= | /index.php?cat=)
+> site:example.com (inurl:home.php?cat= | inurl:product_list.php?id=)
+> site:example.com (inurl:product.php?product_id= | inurl:content.php?id=)
+> site:example.com (inurl:view_items.php?id= | inurl:home.php?cat=)
+> site:example.com (inurl:item_book.php?CAT= | inurl:www/index.php?page=)
+> site:example.com (inurl:goods_detail.php?data= | inurl:storemanager/contents/item.php?page_code=)
+> site:example.com (inurl:customer/board.htm?mode= | inurl:help/com_view.html?code=)
+> site:example.com (inurl:n_replyboard.php?typeboard= | inurl:/library/lib.php?root=)
+
+### OPEN REDIRECT
+
+> site:example.com (inurl:redir OR inurl:url OR inurl:redirect OR inurl:return OR inurl:src=http OR inurl:r=http OR inurl:out=http OR inurl:next=http OR inurl:site=http OR inurl:dest=http OR inurl:destination=http OR inurl:continue=http OR inurl:forward=http OR inurl:to=http OR inurl:path=http OR inurl:action=http OR inurl:redirect_uri=http)
+
+### FIND API ENDPOINTS
+
+> site:example.com (inurl:/api/v1 | inurl:/api/v2/ | inurl:/api/v3)
+
+### XSS PRONE PARAMETERS
+
+> site:example.com inurl:(login.sourcehost|name|query|search|keyword|username|email|message|comment|body|input|value|arg|data|q)
+
+### LFI
+
+> site:example.com (inurl:?file=|inurl:?page=|inurl:?path=| inurl:?doc= | inurl:?folder= | inurl:?dir= | inurl:showfile.php?filename=)
 
 ### RCE PRONE PARAMETERS
 
@@ -145,10 +167,6 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com (filetype:doc OR filetype:xlsx) intext:@gmail.com
 
-### LOG
-
-> site:example.com intitle:index.of intext:log
-
 ### WP-CONTENT
 
 > site:example.com intext:"index of" "wp-content.zip"
@@ -198,11 +216,11 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com ext:doc | ext:docx intext:"internal use only | confidential"
 > site:example.com ext:pdf intext:"internal use only | confidential"
+> site:example.com intitle:"Index of" .bash_history | intitle:"Index of" .mysql_history
+> site:example.com allintext:username filetype:log
+> site:example.com filetype:txt intext:@gmail.com intext:password
+> site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
 
-### TOP 5 SQLI
+### SENSITIVE FILES
 
-> site:example.com inurl:view_items.php?id=
-> site:example.com inurl:content.php?id=
-> site:example.com inurl:product.php?product_id=
-> site:example.com inurl:product_list.php?id=
-> site:example.com inurl:home.php?cat=
+> site:example.com (inurl:admin | inurl:dashboard | inurl:panel | inurl:phpmyadmin | inurl:wp-admin | inurl:confluence | inurl:secureadmin | inurl:sitemanager | inurl:drupal | inurl:config | inurl:myadmin | inurl:sqladmin | inurl:grafana | inurl:kibana | inurl:metrics | inurl:backup | inurl:zabbix | inurl:prometheus | inurl:splunk | inurl:database | inurl:phppgadmin | inurl:ghost | inurl:joomla)
