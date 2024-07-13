@@ -16,6 +16,51 @@
             overflow-x: hidden;
         }
 
+        .cheatsheet-tab {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            border-radius: 10px;
+            background-color: #1a1a1a;
+            box-shadow: 0 0 10px #00ff00;
+            color: #f0f0f0;
+        }
+
+        .cheatsheet-tab h2 {
+            color: #00ff00;
+        }
+
+        .cheatsheet-tab .category {
+            margin: 20px 0;
+        }
+
+        .cheatsheet-tab .category h3 {
+            cursor: pointer;
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 5px;
+        }
+
+        .cheatsheet-tab .category ul {
+            list-style-type: none;
+            padding: 0;
+            display: none; /* Hide by default */
+        }
+
+        .cheatsheet-tab .category ul li {
+            margin: 10px 0;
+        }
+
+        .cheatsheet-tab .category ul li a {
+            color: #69f0ae;
+            text-decoration: none;
+        }
+
+        .cheatsheet-tab .category ul li a:hover {
+            text-decoration: underline;
+        }
+
         .container {
             margin: 50px auto;
             max-width: 800px;
@@ -308,6 +353,60 @@
             vertical-align: middle; /* Align vertically with the button */
         }
 
+        #cheatsheets-pane {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #cheatsheets-window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        #cheatsheets-window-header h5 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        #cheatsheets-window {
+            position: fixed;
+            right: 60px;
+            top: 10%;
+            width: 400px;
+            height: 500px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-y: auto;
+        }
+
+        #cheatsheets-window-header button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+
+        }
+
 		#updateDomainButton {
 			border: 2px solid #00ff00;
 			background-color: #1a1a1a;
@@ -386,7 +485,34 @@
 		Notification
 	</div>
 
+    <div id="cheatsheets-pane">&#x270E;</div>
 
+    <div id="cheatsheets" style="display: none;">
+        <div>
+            <h6>Cheatsheets</h6>
+            <ul>
+                <li><a href="#" target="_blank">Cheatsheet Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Cheatsheet Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Cheatsheet Link Test</a> | Description</li>
+            </ul>
+        </div>
+        <div>
+            <h6>Writeups</h6>
+            <ul>
+                <li><a href="#" target="_blank">Writeup Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Writeup Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Writeup Link Test</a> | Description</li>
+            </ul>
+        </div>
+        <div>
+            <h6>Dorks</h6>
+            <ul>
+                <li><a href="#" target="_blank">Dork Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Dork Link Test</a> | Description</li>
+                <li><a href="#" target="_blank">Dork Link Test</a> | Description</li>
+            </ul>
+        </div>
+    </div>
 
     <!-- Paging Links -->
     <div class="paging">
@@ -570,6 +696,44 @@
 		}
 	});
 
+    document.getElementById('cheatsheets-pane').addEventListener('click', function() {
+            // Check if the window already exists
+            if (document.getElementById('cheatsheets-window')) return;
+
+            // Create a new window inside the page
+            let cheatsheetsWindow = document.createElement('div');
+            cheatsheetsWindow.id = 'cheatsheets-window';
+            cheatsheetsWindow.innerHTML = `
+                <div id="cheatsheets-window-header">
+                    <button id="close-cheatsheets">&times;</button>
+                    <h5>Cheatsheets</h5>
+                </div>
+                <div id="cheatsheets-content" style="padding-top: 10px;">
+                    <!-- Insert Cheatsheets content here -->
+                </div>
+            `;
+
+            // Append the window to the body
+            document.body.appendChild(cheatsheetsWindow);
+
+            // Load the Cheatsheets content (you can adjust this as needed)
+            document.getElementById('cheatsheets-content').innerHTML = document.getElementById('cheatsheets').innerHTML;
+
+            // Add event listener to the close button
+            document.getElementById('close-cheatsheets').addEventListener('click', function() {
+                document.body.removeChild(cheatsheetsWindow);
+            });
+
+            // Close the window when clicking outside of it
+            document.addEventListener('click', function(event) {
+                if (!cheatsheetsWindow.contains(event.target) && event.target.id !== 'cheatsheets-pane') {
+                    document.body.removeChild(cheatsheetsWindow);
+                }
+            });
+        });
+
+
+
     // Functionality for Google Dorks section
     let originalDorks = [];
 
@@ -652,6 +816,19 @@
         // Clear search results
         clearSearchResults();
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const categories = document.querySelectorAll(".cheatsheet-tab .category h3");
+        categories.forEach(category => {
+            category.addEventListener("click", function() {
+                const ul = this.nextElementSibling;
+                ul.style.display = ul.style.display === "block" ? "none" : "block";
+                this.textContent = this.textContent.endsWith("+") 
+                    ? this.textContent.replace("+", "-") 
+                    : this.textContent.replace("-", "+");
+            });
+        });
+    });
 
     // Clear search results function
     function clearSearchResults() {
