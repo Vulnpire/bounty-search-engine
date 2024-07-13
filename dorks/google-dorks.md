@@ -3,7 +3,8 @@
 A list of Google Dorks for Bug Bounty.
 
 ---
-### Broad domain search with negative search
+
+### NEGATIVE SEARCH
 
 > site:example.com -www -shop -share -ir -mfa
 
