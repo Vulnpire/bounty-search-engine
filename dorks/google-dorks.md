@@ -66,11 +66,11 @@ A list of Google Dorks for Bug Bounty.
 
 ### OPEN REDIRECT
 
-> site:example.com (inurl:redir OR inurl:url OR inurl:redirect OR inurl:return OR inurl:src=http OR inurl:r=http OR inurl:out=http OR inurl:next=http OR inurl:site=http OR inurl:dest=http OR inurl:destination=http OR inurl:continue=http OR inurl:forward=http OR inurl:to=http OR inurl:path=http OR inurl:action=http OR inurl:redirect_uri=http)
+> site:example.com (inurl:redir OR inurl:url=http OR inurl:redirect OR inurl:return OR inurl:src=http OR inurl:r=http OR inurl:out=http OR inurl:next=http OR inurl:site=http OR inurl:dest=http OR inurl:destination=http OR inurl:continue=http OR inurl:forward=http OR inurl:to=http OR inurl:path=http OR inurl:action=http OR inurl:redirect_uri=http)
 
 ### FIND API ENDPOINTS
 
-> site:example.com (inurl:/api/v1 | inurl:/api/v2/ | inurl:/api/v3)
+> site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
 
 ### XSS PRONE PARAMETERS
 
