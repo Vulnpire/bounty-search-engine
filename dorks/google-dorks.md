@@ -74,15 +74,15 @@ A list of Google Dorks for Bug Bounty.
 
 ### XSS PRONE PARAMETERS
 
-> site:example.com inurl:(login.sourcehost|name|query|search|keyword|username|email|message|comment|body|input|value|arg|data|q)
+> site:example.com (inurl:login.sourcehost|inurl:name|inurl:query|inurl:search|inurl:keyword|inurl:username|inurl:email|inurl:message|inurl:comment|inurl:body|inurl:input|inurl:value|inurl:arg|inurl:data|inurl:q)
 
 ### LFI
 
-> site:example.com (inurl:?file=|inurl:?page=|inurl:?path=| inurl:?doc= | inurl:?folder= | inurl:?dir= | inurl:showfile.php?filename=)
+> site:example.com (inurl:file=|inurl:page=|inurl:path=| inurl:doc= | inurl:folder= | inurl:dir= | inurl:showfile.php?filename=)
 
 ### RCE PRONE PARAMETERS
 
-> site:example.com inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:&
+> site:example.com (inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping=)
 
 ### UPLOAD
 
