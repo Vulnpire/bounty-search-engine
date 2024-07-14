@@ -75,7 +75,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### XSS PRONE PARAMETERS
 
-> site:example.com (inurl:login.sourcehost|inurl:name|inurl:query|inurl:search|inurl:keyword|inurl:username|inurl:email|inurl:message|inurl:comment|inurl:body|inurl:input|inurl:value|inurl:arg|inurl:data|inurl:q)
+> site:example.com (inurl:login.sourcehost|inurl:name|inurl:query|inurl:search|inurl:keyword|inurl:username|inurl:email|inurl:message|inurl:comment|inurl:body|inurl:input|inurl:value|inurl:arg|inurl:data|inurl:q|inurl:search.aspx?keyword=|inurl:cat=|inurl:EmbedTest=)
 
 ### LFI
 
