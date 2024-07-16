@@ -6,24 +6,16 @@ A list of Google Dorks for Bug Bounty.
 
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
-> site:example.com ext:php inurl:?
- 
-> site:example.com ext:aspx inurl:?
- 
-> site:example.com ext:asp inurl:?
-
-> site:example.com ext:jsp inurl:?
-
-> site:example.com ext:jspx inurl:?
+> site:example.com (ext:php inurl:? | ext:aspx inurl:? | ext:asp inurl:? | ext:jsp inurl:? | ext:jspx inurl:?)
 
 ### FORM
 
-> site:example.com intitle:"Submit Feedback" | intitle:"Contact us" | intitle:"Join Our Waitlist" | intitle:"Subscribe" | intitle:"Newsletter" | intitle:"Unsubscribe" | intitle:"Email Support" | intitle:"Customer Support"
+> site:example.com (intitle:"Submit Feedback" | intitle:"Contact us" | intitle:"Join Our Waitlist" | intitle:"Subscribe" | intitle:"Newsletter" | intitle:"Unsubscribe" | intitle:"Email Support" | intitle:"Customer Support")
 
 ### LOGIN
 
-> site:example.com inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register
-> site:example.com inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal
+> site:example.com (inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register)
+> site:example.com (inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal)
 
 ### FILECATALYST FILE TRANSFER
 
@@ -37,7 +29,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### CONFIG.YAML
 
-> site:example.com "configmap.yaml" | "config.yaml" | "*-config.yaml" intitle:"index of"
+> site:example.com ("configmap.yaml" | "config.yaml" | "*-config.yaml" intitle:"index of")
 
 ### SETTINGS.PHP
 
@@ -45,7 +37,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### ADMIN
 
-> site:example.com inurl:admin | administrator | adm | login | l0gin | wp-login
+> site:example.com (inurl:admin | administrator | adm | login | l0gin | wp-login)
 > intitle:"login" "admin" site:example.com
 > intitle:"index of / admin" site:example.com
 > inurl:admin intitle:admin intext:admin site:example.com
@@ -77,11 +69,12 @@ A list of Google Dorks for Bug Bounty.
 
 ### XSS PRONE PARAMETERS
 
-> site:example.com (inurl:login.sourcehost|inurl:name|inurl:query|inurl:search|inurl:keyword|inurl:username|inurl:email|inurl:message|inurl:comment|inurl:body|inurl:input|inurl:value|inurl:arg|inurl:data|inurl:q|inurl:search.aspx?keyword=|inurl:cat=|inurl:EmbedTest=)
+> site:example.com (inurl:login.sourcehost | inurl:name | inurl:query | inurl:search | inurl:keyword | inurl:username | inurl:email | inurl:message | inurl:comment | inurl:body | inurl:input | inurl:value | inurl:arg | inurl:data | inurl:q | inurl:search.aspx?keyword= | inurl:cat= | inurl:EmbedTest=)
+> site:example.com (inurl:query filetype:html inurl:page | inurl:/poll/­default.asp?catid= | inurl:& inurl:search inurl:q | inurl:".php?cmd=" | inurl:".php?search=" | inurl:/­search_results.php?se­arch= | inurl:".php?file=")
 
-### LFI
+### LFI PRONE PARAMETERS
 
-> site:example.com (inurl:file=|inurl:page=|inurl:path=| inurl:doc= | inurl:folder= | inurl:dir= | inurl:showfile.php?filename=)
+> site:example.com (inurl:file= | inurl:page= | inurl:path= | inurl:doc= | inurl:folder= | inurl:dir= | inurl:showfile.php?filename=)
 
 ### RCE PRONE PARAMETERS
 
@@ -210,15 +203,15 @@ A list of Google Dorks for Bug Bounty.
 ### PDF|DOC|XLS|CSV|PPT|TXT
 
 > site:example.com ext:pdf
-> site:example.com ext:doc | ext:docx
+> site:example.com (ext:doc | ext:docx)
 > site:example.com ext:xls | ext:xlsx
 > site:example.com ext:csv
-> site:example.com ext:ppt | ext:pptx
+> site:example.com (ext:ppt | ext:pptx)
 > site:example.com ext:txt
 
 ### INTERESTING EXTENSIONS
 
-> site:example.com ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess
+> site:example.com (ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess)
 
 ### SENSITIVE INFORMATION
 
@@ -228,6 +221,7 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com allintext:username filetype:log
 > site:example.com filetype:txt intext:@gmail.com intext:password
 > site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
+> site:example.com "https://drive.google.com/file/d/"
 
 ### SENSITIVE FILES
 
