@@ -4,10 +4,6 @@ A list of Google Dorks for Bug Bounty.
 
 ---
 
-### NEGATIVE SEARCH
-
-> site:example.com -www -shop -share -ir -mfa
-
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
 > site:example.com ext:php inurl:?
@@ -54,7 +50,11 @@ A list of Google Dorks for Bug Bounty.
 > intitle:"index of / admin" site:example.com
 > inurl:admin intitle:admin intext:admin site:example.com
 
-### TOP 7 SQLI
+### FIND API ENDPOINTS
+
+> site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
+
+### TOP 10 SQLI PRONE PARAMETERS
 
 > site:example.com (inurl:?id= | /index.php?cat=)
 > site:example.com (inurl:home.php?cat= | inurl:product_list.php?id=)
@@ -64,14 +64,16 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com (inurl:goods_detail.php?data= | inurl:storemanager/contents/item.php?page_code=)
 > site:example.com (inurl:customer/board.htm?mode= | inurl:help/com_view.html?code=)
 > site:example.com (inurl:n_replyboard.php?typeboard= | inurl:/library/lib.php?root=)
+> site:example.com (inurl:article.php?id= | inurl:category.php?id=)
+> site:example.com (inurl:thread.php?id= | inurl:view.php?id=)
 
-### OPEN REDIRECT
+### IDOR PRONE PARAMETERS
+
+> site:example.com (inurl:?invoice= | inurl:changepassword?user= | inurl:showImage | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
+
+### OPEN REDIRECT PRONE PARAMETERS
 
 > site:example.com (inurl:redir OR inurl:url=http OR inurl:redirect OR inurl:return OR inurl:src=http OR inurl:r=http OR inurl:out=http OR inurl:next=http OR inurl:site=http OR inurl:dest=http OR inurl:destination=http OR inurl:continue=http OR inurl:forward=http OR inurl:to=http OR inurl:path=http OR inurl:action=http OR inurl:redirect_uri=http)
-
-### FIND API ENDPOINTS
-
-> site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
 
 ### XSS PRONE PARAMETERS
 
@@ -85,9 +87,14 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com (inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping=)
 
-### UPLOAD
+### UPLOAD PRONE ENDPOINTS
 
-> site:example.com "choose file"
+> site:example.com (intitle:"choose file" | intitle:"file upload")
+> site:example.com (inurl:"upload.php" | inurl:"upload" intitle:"index of")
+> site:example.com "upload your file" inurl:upload
+> site:example.com inurl:/uploads/ filetype:php
+> site:example.com "file upload" "instructions" inurl:upload
+> site:example.com inurl:admin intitle:"file upload"
 
 ### INDEX
 
