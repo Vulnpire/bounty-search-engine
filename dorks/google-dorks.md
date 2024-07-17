@@ -3,6 +3,8 @@
 A list of Google Dorks for Bug Bounty.
 
 ---
+###
+>
 
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
@@ -79,6 +81,10 @@ A list of Google Dorks for Bug Bounty.
 ### RCE PRONE PARAMETERS
 
 > site:example.com (inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping=)
+
+### COMMON PARAMS FOR SESSION MANAGEMENT
+
+> site:example.com (inurl:token|inurl:auth|inurl:session|inurl:sid|inurl:csrf|inurl:xsrf)
 
 ### UPLOAD PRONE ENDPOINTS
 
