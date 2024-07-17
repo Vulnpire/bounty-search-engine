@@ -3,8 +3,8 @@
 A list of Google Dorks for Bug Bounty.
 
 ---
-###
->
+### TEST
+> test
 
 ### PHP|ASP|ASPX|JSP|JSPX EXTENSION WITH PARAMETERS
 
@@ -84,7 +84,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### COMMON PARAMS FOR SESSION MANAGEMENT
 
-> site:example.com (inurl:token|inurl:auth|inurl:session|inurl:sid|inurl:csrf|inurl:xsrf)
+> site:example.com (inurl:token | inurl:auth | inurl:session | inurl:sid | inurl:csrf | inurl:xsrf)
 
 ### UPLOAD PRONE ENDPOINTS
 
