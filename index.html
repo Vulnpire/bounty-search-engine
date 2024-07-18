@@ -551,8 +551,8 @@
     // Global variable to store the current domain(s)
     let currentDomains = [];
 
-    // Function to perform search with pagination
-	async function performSearch(startIndex = 1, query = null, notify = false) {
+		// Function to perform search with pagination
+	async function performSearch(startIndex = 1, query = null, notify = false, retries = 3) {
 		if (!query) {
 		    query = document.getElementById("searchInput").value;
 		}
@@ -591,7 +591,7 @@
 		            // Switch to the next API key
 		            switchApiKey();
 		            // Retry the request with the next API key
-		            performSearch(startIndex, query, notify);
+		            performSearch(startIndex, query, notify, retries);
 		            return;
 		        }
 
@@ -608,13 +608,19 @@
 		            }
 		        }
 		    } catch (error) {
-		        resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
-		        if (notify) {
-		            showNotification('Error fetching search results');
+		        if (retries > 0) {
+		            // Retry after a 3-second delay
+		            setTimeout(() => performSearch(startIndex, query, notify, retries - 1), 3000);
+		        } else {
+		            resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
+		            if (notify) {
+		                showNotification('Error fetching search results');
+		            }
 		        }
 		    }
 		}, delay);
 	}
+
 
 
     // Display search results
@@ -823,8 +829,8 @@
             category.addEventListener("click", function() {
                 const ul = this.nextElementSibling;
                 ul.style.display = ul.style.display === "block" ? "none" : "block";
-                this.textContent = this.textContent.endsWith("+") 
-                    ? this.textContent.replace("+", "-") 
+                this.textContent = this.textContent.endsWith("+")
+                    ? this.textContent.replace("+", "-")
                     : this.textContent.replace("-", "+");
             });
         });
