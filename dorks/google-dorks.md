@@ -48,7 +48,7 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
 
-### TOP 10 SQLI PRONE PARAMETERS
+### SQLI PRONE PARAMETERS
 
 > site:example.com (inurl:?id= | /index.php?cat=)
 > site:example.com (inurl:home.php?cat= | inurl:product_list.php?id=)
@@ -61,9 +61,9 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com (inurl:article.php?id= | inurl:category.php?id=)
 > site:example.com (inurl:thread.php?id= | inurl:view.php?id=)
 
-### IDOR PRONE PARAMETERS
+### IDOR PRONE PARAMETERS & ENDPOINTS
 
-> site:example.com (inurl:?invoice= | inurl:changepassword?user= | inurl:showImage | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
+> site:example.com (inurl:?invoice= | inurl:api/user/ | inurl:changepassword?user= | inurl:showImage | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
 
 ### OPEN REDIRECT PRONE PARAMETERS
 
