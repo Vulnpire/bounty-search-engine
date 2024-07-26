@@ -105,75 +105,72 @@
     // Global variable to store the current domain(s)
     let currentDomains = [];
 
-		// Function to perform search with pagination
-	async function performSearch(startIndex = 1, query = null, notify = false, retries = 3) {
-		if (!query) {
-		    query = document.getElementById("searchInput").value;
-		}
-		const resultsContainer = document.getElementById("resultsContainer");
-		resultsContainer.innerHTML = '';
+    // Function to perform search with pagination
+    async function performSearch(startIndex = 1, query = null, notify = false, retries = 3) {
+    const maxDomainsPerQuery = 5; // Limit the number of domains per query
+    let queryDomains = currentDomains.slice(0, maxDomainsPerQuery);
 
-		if (!query) {
-		    resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
-		    return;
-		}
+    if (!query) {
+        query = document.getElementById("searchInput").value;
+    }
+    const resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.innerHTML = '';
 
-		// Replace example.com with the user-provided domain(s)
-		if (currentDomains.length > 0) {
-		    query = currentDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
-		}
+    if (!query) {
+        resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
+        return;
+    }
 
-		// Anti-Bot Delay
-		const delay = Math.floor(Math.random() * 1000);
+    if (queryDomains.length > 0) {
+        query = queryDomains.map(domain => query.replace(/example\.com/g, domain)).join(' OR ');
+    }
 
-		setTimeout(async () => {
-		    const apiKey = getCurrentApiKey();
-		    const cx = '759aed2f7b4be4b83'; // Replace with your CSE ID
-		    const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
-		    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
+    const delay = Math.floor(Math.random() * 1000);
+    setTimeout(async () => {
+        const apiKey = getCurrentApiKey();
+        const cx = '759aed2f7b4be4b83';
+        const googleApiUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}&start=${startIndex}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(googleApiUrl)}`;
 
-		    try {
-		        const response = await fetch(proxyUrl);
-		        if (!response.ok) {
-		            throw new Error('Network response was not ok');
-		        }
-		        const data = await response.json();
-		        const jsonData = JSON.parse(data.contents);
+        try {
+            const response = await fetch(proxyUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const jsonData = JSON.parse(data.contents);
 
-		        // Check for quota exceeded error
-		        if (jsonData.error && jsonData.error.code === 429) {
-		            // Switch to the next API key
-		            switchApiKey();
-		            // Retry the request with the next API key
-		            performSearch(startIndex, query, notify, retries);
-		            return;
-		        }
+            if (jsonData.error && jsonData.error.code === 429) {
+                switchApiKey();
+                performSearch(startIndex, query, notify, retries);
+                return;
+            }
 
-		        if (jsonData.items) {
-		            displayResults(jsonData.items);
-		            setupPaginationControls(jsonData.queries, startIndex, query);
-		            if (notify) {
-		                showNotification(`Results found`); // ${jsonData.items.length}
-		            }
-		        } else {
-		            resultsContainer.innerHTML = '<p>No results found.</p>';
-		            if (notify) {
-		                showNotification('No results found');
-		            }
-		        }
-		    } catch (error) {
-		        if (retries > 0) {
-		            // Retry after a 3-second delay
-		            setTimeout(() => performSearch(startIndex, query, notify, retries - 1), 3000);
-		        } else {
-		            resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
-		            if (notify) {
-		                showNotification('Error fetching search results');
-		            }
-		        }
-		    }
-		}, delay);
-	}
+            if (jsonData.items) {
+                displayResults(jsonData.items);
+                setupPaginationControls(jsonData.queries, startIndex, query);
+                if (notify) {
+                    showNotification(`Results found`);
+                }
+            } else {
+                resultsContainer.innerHTML = '<p>No results found.</p>';
+                if (notify) {
+                    showNotification('No results found');
+                }
+            }
+        } catch (error) {
+            if (retries > 0) {
+                setTimeout(() => performSearch(startIndex, query, notify, retries - 1), 3000);
+            } else {
+                resultsContainer.innerHTML = `<p>Error fetching search results: ${error.message}</p>`;
+                if (notify) {
+                    showNotification('Error fetching search results');
+                }
+            }
+        }
+    }, delay);
+}
+
 
 
 
