@@ -223,6 +223,7 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com ext:doc | ext:docx intext:"internal use only | confidential"
 > site:example.com ext:pdf intext:"internal use only | confidential"
+> site:example.com ext:pdf intitle:Setup
 > site:example.com intitle:"Index of" .bash_history | intitle:"Index of" .mysql_history
 > site:example.com allintext:username filetype:log
 > site:example.com filetype:txt intext:@gmail.com intext:password
