@@ -229,6 +229,7 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com filetype:txt intext:@gmail.com intext:password
 > site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
 > site:example.com "https://drive.google.com/file/d/"
+> site:groups.google.com "example.com"
 
 ### SENSITIVE FILES
 
