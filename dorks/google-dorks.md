@@ -23,6 +23,10 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com intitle:"FileCatalyst file transfer solution"
 
+### NEGATIVE SEARCH
+
+> site:example.com -www -shop -share -ir -mfa
+
 ### XAMPP DEFAULT DASHBOARD PANELS
 
 > site:example.com intext:"Welcome to XAMPP for *" intitle:"Welcome to XAMPP" inurl:/dashboard
