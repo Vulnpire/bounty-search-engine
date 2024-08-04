@@ -23,9 +23,12 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com intitle:"FileCatalyst file transfer solution"
 
-### NEGATIVE SEARCH
+### NEGATIVE SEARCH & SUBDOMAIN DISCOVERY
 
 > site:example.com -www -shop -share -ir -mfa
+> site:*.example.com
+> site:*.*.example.com
+> site:*.*.*.example.com
 
 ### XAMPP DEFAULT DASHBOARD PANELS
 
@@ -67,11 +70,12 @@ A list of Google Dorks for Bug Bounty.
 
 ### IDOR PRONE PARAMETERS & ENDPOINTS
 
-> site:example.com (inurl:?invoice= | inurl:api/user/ | inurl:changepassword?user= | inurl:showImage | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
+> site:example.com (inurl:?invoice= | inurl:api/user/ | inurl:showImage )
+> site:example.com (inurl:changepassword?user= | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
 
 ### OPEN REDIRECT PRONE PARAMETERS
 
-> site:example.com (inurl:redir OR inurl:url=http OR inurl:redirect OR inurl:return OR inurl:src=http OR inurl:r=http OR inurl:out=http OR inurl:next=http OR inurl:site=http OR inurl:dest=http OR inurl:destination=http OR inurl:continue=http OR inurl:forward=http OR inurl:to=http OR inurl:path=http OR inurl:action=http OR inurl:redirect_uri=http)
+> site:example.com (inurl:redir | inurl:url=http | inurl:redirect | inurl:return | inurl:src=http | inurl:r=http | inurl:out=http | inurl:next=http | inurl:site=http | inurl:dest=http | inurl:destination=http | inurl:continue=http | inurl:forward=http | inurl:to=http | inurl:path=http | inurl:action=http | inurl:redirect_uri=http)
 
 ### XSS PRONE PARAMETERS
 
@@ -117,7 +121,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### PHPMYADMIN
 
-> site:example.com inurl:"setup/index.php" | inurl:"phpmyadmin" | inurl:"phpMyAdmin" | inurl:"admin/phpMyAdmin" | inurl:"pma/setup/index.php" | intitle:"index of /phpMyAdmin"
+> site:example.com (inurl:"setup/index.php" | inurl:"phpmyadmin" | inurl:"phpMyAdmin" | inurl:"admin/phpMyAdmin" | inurl:"pma/setup/index.php" | intitle:"index of /phpMyAdmin")
 
 ### GIT
 
