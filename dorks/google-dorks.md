@@ -240,6 +240,7 @@ A list of Google Dorks for Bug Bounty.
 > site:groups.google.com "example.com"
 > site:example.com filetype:env "DB_PASSWORD"
 > site:example.com filetype:xls inurl:email.xls
+> site:example.com "MYSQL_ROOT_PASSWORD:" ext:env OR ext:yml -git
 
 ### SENSITIVE FILES
 
