@@ -238,6 +238,8 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
 > site:example.com "https://drive.google.com/file/d/"
 > site:groups.google.com "example.com"
+> site:example.com filetype:env "DB_PASSWORD"
+> site:example.com filetype:xls inurl:email.xls
 
 ### SENSITIVE FILES
 
