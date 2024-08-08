@@ -8,7 +8,9 @@ const apiKeys = [
     'AIzaSyAC9XwXC7PC_gq1Rv1ImrLoM28hShlscDo',
     'AIzaSyAmIVZk_swF9RQ-6mmp-jJa03njc-MKyfM',
     'AIzaSyBk6XafrFvNWSTsJyw3OuWeBREXpMKHAzI',
-    'AIzaSyAcbHnaoD6NX_XtykjoPsNLJq1V__1ik2Y'
+    'AIzaSyAcbHnaoD6NX_XtykjoPsNLJq1V__1ik2Y',
+    'AIzaSyBRQCa-hAcN0r6U6vFq7mgW-DNNi5AvB9I',
+    'AIzaSyCH4aYKkO4TKyLuPBWth-TFoYkU2DcOFOI'
 ];
 let currentApiKeyIndex = 0;
 
