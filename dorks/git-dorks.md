@@ -123,3 +123,13 @@ A list of Github Dorks for Bug Bounty.
 ### Search for secrets
 
 > example.com+secrets&type=Code
+
+### Search for SQLI
+
+> example.com+%2FSELECT+%5C%2A+FROM.%2A%24_GET%2F&type=Code
+
+### Search for SSRF
+
+> example.com+%2Ffile_get_contents%5C%28.%2A%24_GET%7Ccurl_exec%5C%28.%2A%24_GET%2F&type=Code
+
+> example.com+%2F%28subprocess%7Cexec%7Cspawn%7Csystem%29.%2Achrome.%2A--headless%2F&type=Code
