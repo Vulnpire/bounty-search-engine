@@ -55,6 +55,10 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
 
+### FIND S3 BUCKETS
+
+> site:example.com ("s3 bucket" OR "bucket-name" OR "s3.amazonaws.com" OR "s3-us-west-2.amazonaws.com" OR "s3.amazonaws.com/bucket-name" OR "s3.amazonaws.com/bucket/" OR "s3.amazonaws.com/bucket?prefix=" OR "s3.amazonaws.com/bucket-name/")
+
 ### SQLI PRONE PARAMETERS
 
 > site:example.com (inurl:?id= | /index.php?cat=)
