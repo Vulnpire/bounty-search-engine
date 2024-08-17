@@ -76,7 +76,7 @@ function updateDomain() {
         const updatedDork = originalDork.replace(/example\.com/gi, domain);
 
         // Update the link and the displayed text
-        const updatedLink = `https://github.com/search?q=${encodeURIComponent(updatedDork + ' password')}&type=Code`;
+        const updatedLink = `https://github.com/search?q=${encodeURIComponent(updatedDork)}&type=Code`;
 
         link.textContent = updatedDork;
         link.href = updatedLink;
