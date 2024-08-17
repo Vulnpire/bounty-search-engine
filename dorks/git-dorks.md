@@ -133,3 +133,13 @@ A list of Github Dorks for Bug Bounty.
 > example.com+%2Ffile_get_contents%5C%28.%2A%24_GET%7Ccurl_exec%5C%28.%2A%24_GET%2F&type=Code
 
 > example.com+%2F%28subprocess%7Cexec%7Cspawn%7Csystem%29.%2Achrome.%2A--headless%2F&type=Code
+
+### Search for LFI
+
+> example.com+%2Finclude%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+
+> example.com+%2Finclude_once%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+
+> example.com+%2Frequire%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+
+> example.com+%2Frequire_once%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
