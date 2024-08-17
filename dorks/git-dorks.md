@@ -130,16 +130,16 @@ A list of Github Dorks for Bug Bounty.
 
 ### Search for SSRF
 
-> example.com+%2Ffile_get_contents%5C%28.%2A%24_GET%7Ccurl_exec%5C%28.%2A%24_GET%2F&type=Code
+> example.com+/file_get_contents\(.*$_GET|curl_exec\(.*$_GET/&type=Code
 
-> example.com+%2F%28subprocess%7Cexec%7Cspawn%7Csystem%29.%2Achrome.%2A--headless%2F&type=Code
+> example.com+/(subprocess|exec|spawn|system).*chrome.*--headless/&type=Code
 
 ### Search for LFI
 
-> example.com+%2Finclude%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+> example.com+/include\(.*\$_GET|$_POST\(/&type=Code
 
-> example.com+%2Finclude_once%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+> example.com+/include_once\(.*\$_GET|$_POST\(/&type=Code
 
-> example.com+%2Frequire%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+> example.com+/require\(.*\$_GET|$_POST\(/&type=Code
 
-> example.com+%2Frequire_once%5C%28.%2A%24_GET%7C%5C%28%2F&type=Code
+> example.com+/require_once\(.*\$_GET|$_POST\(/&type=Code
