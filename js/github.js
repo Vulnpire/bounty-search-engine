@@ -35,7 +35,7 @@ let prevTitle = '';
 
 // Create a list item for each dork
 function createDorkListItem(dork, description) {
-    const githubLink = `https://github.com/search?q=${encodeURIComponent(dork + ' password')}&type=Code`;
+    const githubLink = `https://github.com/search?q=${encodeURIComponent(dork)}&type=Code`;
 
     const listItem = document.createElement("li");
 
