@@ -33,8 +33,8 @@ A list of Google Dorks for Bug Bounty.
 
 ### XAMPP DEFAULT DASHBOARD PANELS
 
-> site:example.com intext:"Welcome to XAMPP for *" intitle:"Welcome to XAMPP" inurl:/dashboard
-> site:example.com intext:apache + mariadb + php + perl intext:"welcome to xampp for *"
+> site:example.com (intext:"Welcome to XAMPP for *" intitle:"Welcome to XAMPP" inurl:/dashboard)
+> site:example.com (intext:apache + mariadb + php + perl intext:"welcome to xampp for *")
 > site:example.com intitle:"welcome to xampp"
 
 ### CONFIG.YAML
@@ -50,7 +50,7 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com (inurl:admin | administrator | adm | login | l0gin | wp-login)
 > intitle:"login" "admin" site:example.com
 > intitle:"index of / admin" site:example.com
-> inurl:admin intitle:admin intext:admin site:example.com
+> inurl:admin (intitle:admin intext:admin site:example.com)
 
 ### FIND API ENDPOINTS
 
@@ -58,7 +58,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### FIND S3 BUCKETS
 
-> site:example.com ("s3 bucket" OR "bucket-name" OR "s3.amazonaws.com" OR "s3-us-west-2.amazonaws.com" OR "s3.amazonaws.com/bucket-name" OR "s3.amazonaws.com/bucket/" OR "s3.amazonaws.com/bucket?prefix=" OR "s3.amazonaws.com/bucket-name/")
+> site:example.com ("s3 bucket" | "bucket-name" | "s3.amazonaws.com" | "s3-us-west-2.amazonaws.com" | "s3.amazonaws.com/bucket-name" | "s3.amazonaws.com/bucket/" | "s3.amazonaws.com/bucket?prefix=" | "s3.amazonaws.com/bucket-name/")
 
 ### SQLI PRONE PARAMETERS
 
@@ -84,7 +84,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### EXPOSED USER ACCOUNT PAGES (POSSIBLY IDOR)
 
-> site:example.com (inurl:/account/ OR inurl:/user/ intitle:"profile")
+> site:example.com (inurl:/account/ | inurl:/user/ intitle:"profile")
 
 ### OPEN REDIRECT PRONE PARAMETERS
 
@@ -105,7 +105,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### PASSWORD RESET PAGES
 
-> site:example.com (inurl:password-reset OR inurl:forgot OR inurl:reset-password)
+> site:example.com (inurl:password-reset | inurl:forgot | inurl:reset-password)
 
 ### COMMON PARAMS FOR SESSION MANAGEMENT
 
@@ -143,7 +143,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### GIT
 
-> site:example.com "index of /.git" | intext:"index of /.git" "parent directory"
+> site:example.com ("index of /.git" | intext:"index of /.git" "parent directory")
 
 ### GEOSERVER
 
@@ -152,6 +152,7 @@ A list of Google Dorks for Bug Bounty.
 ### GRAFANA
 
 > site:example.com intitle:"Grafana"
+> site:example.com intitle:"Grafana" inurl:"/dashboard/db"
 
 ### PHPLDAPADMIN
 
@@ -177,7 +178,9 @@ A list of Google Dorks for Bug Bounty.
 ### JENKINS
 
 > site:example.com intitle:"Dashboard [Jenkins]"
-> site:example.com intitle:"Sign in [Jenkins]" inurl:"login?from" 
+> site:example.com intitle:"Sign in [Jenkins]" inurl:"login?from"
+> site:example.com intitle:"Jenkins Script Console" intext:"Run groovy script"
+> site:example.com intitle:"Console Output" intext:"Finished: SUCCESS"
 
 ### WERKZEUG
 
@@ -198,7 +201,7 @@ A list of Google Dorks for Bug Bounty.
 
 ### EMAIL
 
-> site:example.com (filetype:doc OR filetype:xlsx) intext:@gmail.com
+> site:example.com (filetype:doc | filetype:xlsx) intext:@gmail.com
 
 ### WP-CONTENT
 
@@ -236,7 +239,7 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com ext:pdf
 > site:example.com (ext:doc | ext:docx)
-> site:example.com ext:xls | ext:xlsx
+> site:example.com (ext:xls | ext:xlsx)
 > site:example.com ext:csv
 > site:example.com (ext:ppt | ext:pptx)
 > site:example.com ext:txt
@@ -247,19 +250,35 @@ A list of Google Dorks for Bug Bounty.
 
 ### SENSITIVE INFORMATION
 
-> site:example.com ext:doc | ext:docx intext:"internal use only | confidential"
-> site:example.com ext:pdf intext:"internal use only | confidential"
+> site:example.com (ext:doc | ext:docx intext:"internal use only | confidential")
+> site:example.com (ext:pdf intext:"internal use only | confidential")
 > site:example.com ext:pdf intitle:Setup
-> site:example.com intitle:"Index of" .bash_history | intitle:"Index of" .mysql_history
+> site:example.com (intitle:"Index of" .bash_history | intitle:"Index of" .mysql_history)
 > site:example.com allintext:username filetype:log
 > site:example.com filetype:txt intext:@gmail.com intext:password
-> site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
+> site:example.com (intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version")
 > site:example.com "https://drive.google.com/file/d/"
 > site:groups.google.com "example.com"
 > site:example.com filetype:env "DB_PASSWORD"
 > site:example.com filetype:xls inurl:email.xls
-> site:example.com "MYSQL_ROOT_PASSWORD:" ext:env OR ext:yml -git
-> site:example.com intext:"docs.google.com" "spreadsheets" | "presentation" | "document"
+> site:example.com ("MYSQL_ROOT_PASSWORD:" ext:env | ext:yml -git)
+> site:example.com (intext:"docs.google.com" "spreadsheets" | "presentation" | "document")
+
+### NVIDIA JETSON DEVICES
+
+> site:example.com intitle:"NVIDIA Jetson" intext:"NVIDIA Jetson"
+
+### MONGODB INSTANCES WITH AUTH BYPASS
+
+> site:example.com intext:"MongoDB Server Information" intitle:"MongoDB" -intext:"MongoDB Server Version"
+
+### OPENCV INSTANCES
+
+> site:example.com intitle:"OpenCV Server" inurl:"/cgi-bin/guestimage.html"
+
+### OPENEMR INSTALLATIONS
+
+> site:example.com intitle:"OpenEMR Login" inurl:"/interface"
 
 ### SEARCH PASTEBIN/PASTING SITES
 
