@@ -82,6 +82,10 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com (inurl:?invoice= | inurl:api/user/ | inurl:showImage )
 > site:example.com (inurl:changepassword?user= | inurl:accessPage?menuitem= | inurl:user_id= | inurl:MyPictureList= | inurl:profile_id= | inurl:account_id= | inurl:order_id= | inurl:page_id= | inurl:product_id= | inurl:session_id= | inurl:invoice_id= | inurl:doc_id=)
 
+### EXPOSED USER ACCOUNT PAGES (POSSIBLY IDOR)
+
+> site:example.com (inurl:/account/ OR inurl:/user/ intitle:"profile")
+
 ### OPEN REDIRECT PRONE PARAMETERS
 
 > site:example.com (inurl:redir | inurl:url=http | inurl:redirect | inurl:return | inurl:src=http | inurl:r=http | inurl:out=http | inurl:next=http | inurl:site=http | inurl:dest=http | inurl:destination=http | inurl:continue=http | inurl:forward=http | inurl:to=http | inurl:path=http | inurl:action=http | inurl:redirect_uri=http)
@@ -98,6 +102,10 @@ A list of Google Dorks for Bug Bounty.
 ### RCE PRONE PARAMETERS
 
 > site:example.com (inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping=)
+
+### PASSWORD RESET PAGES
+
+> site:example.com (inurl:password-reset OR inurl:forgot OR inurl:reset-password)
 
 ### COMMON PARAMS FOR SESSION MANAGEMENT
 
