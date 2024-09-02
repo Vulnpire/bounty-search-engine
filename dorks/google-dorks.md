@@ -263,6 +263,9 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com filetype:xls inurl:email.xls
 > site:example.com ("MYSQL_ROOT_PASSWORD:" ext:env | ext:yml -git)
 > site:example.com (intext:"docs.google.com" "spreadsheets" | "presentation" | "document")
+> site:example.com inurl:zoom.us/j AND intext:scheduled for
+> site:example.com intitle:Test Page for the Nginx HTTP Server on Fedora
+> site:example.com intitle:"Swagger UI - " + "Show/Hide"
 
 ### NVIDIA JETSON DEVICES
 
