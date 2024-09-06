@@ -52,13 +52,41 @@ A list of Google Dorks for Bug Bounty.
 > intitle:"index of / admin" site:example.com
 > inurl:admin (intitle:admin intext:admin site:example.com)
 
+### FIREBASE
+
+> "example.com" site:firebaseio.com
+
+### CODE LEAKS
+
+> site:pastebin.com "example.com"
+> site:jsfiddle.net "example.com"
+> site:codebeautify.org "example.com"
+> site:codepen.io "example.com"
+
 ### FIND API ENDPOINTS
 
 > site:example.com (inurl:/api/v1 | inurl:/api/v2 | inurl:/api/v3)
+> inurl:apidocs | inurl:api-docs | inurl:swagger | inurl:api-explorer site:"example.com"
 
-### FIND S3 BUCKETS
+### SWAGGER-UI
+
+> site:example.com intitle:"Swagger UI" | inurl:"index.html" | inurl:"swagger" | inurl:"restapi" | inurl:"classicapi" | inurl:"api" | inurl:"apidocs" | inurl:"clicktrack" | inurl:"doc" | inurl:"static" | inurl:"documentation" | inurl:"openapi" | inurl:"explore" | inurl:"v1" | inurl:"v2" | inurl:"v3" | inurl:"v4" | inurl:"developer" | inurl:"apidoc" | inurl:"document" | inurl:"govpay" | inurl:"routes" | inurl:"application" | inurl:"graphql" | inurl:"playground" | inurl:"apis" | inurl:"public" | inurl:"schema" | inurl:"spec" | inurl:"gateway"
+
+### CLOUD STORAGE
 
 > site:example.com ("s3 bucket" | "bucket-name" | "s3.amazonaws.com" | "s3-us-west-2.amazonaws.com" | "s3.amazonaws.com/bucket-name" | "s3.amazonaws.com/bucket/" | "s3.amazonaws.com/bucket?prefix=" | "s3.amazonaws.com/bucket-name/")
+> "example.com" site:blob.core.windows.net
+> "example.com" site:googleapis.com
+> "example.com" site:drive.google.com
+> "example.com" site:dev.azure.com
+> "example.com" site:onedrive.live.com
+> "example.com" site:digitaloceanspaces.com
+> "example.com" site:sharepoint.com
+> "example.com" site:s3-external-1.amazonaws.com
+> "example.com" site:s3.dualstack.us-east-1.amazonaws.com
+> "example.com" site:dropbox.com/s
+> "example.com" site:box.com/s
+> "example.com" site:docs.google.com inurl:"/d/"
 
 ### SQLI PRONE PARAMETERS
 
@@ -123,10 +151,6 @@ A list of Google Dorks for Bug Bounty.
 ### INDEX
 
 > site:example.com intext:"index of" "parent directory"
-
-### SWAGGER-UI
-
-> site:example.com intitle:"Swagger UI" | inurl:"index.html" | inurl:"swagger" | inurl:"restapi" | inurl:"classicapi" | inurl:"api" | inurl:"apidocs" | inurl:"clicktrack" | inurl:"doc" | inurl:"static" | inurl:"documentation" | inurl:"openapi" | inurl:"explore" | inurl:"v1" | inurl:"v2" | inurl:"v3" | inurl:"v4" | inurl:"developer" | inurl:"apidoc" | inurl:"document" | inurl:"govpay" | inurl:"routes" | inurl:"application" | inurl:"graphql" | inurl:"playground" | inurl:"apis" | inurl:"public" | inurl:"schema" | inurl:"spec" | inurl:"gateway"
 
 ### PEOPLESOFT
 
@@ -270,6 +294,14 @@ A list of Google Dorks for Bug Bounty.
 ### NVIDIA JETSON DEVICES
 
 > site:example.com intitle:"NVIDIA Jetson" intext:"NVIDIA Jetson"
+
+### SERVER ERRORS
+
+> inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace" site:example.com
+
+### ADOBE EXPERIENCE MANAGER
+
+> inurl:/content/usergenerated | inurl:/content/dam | inurl:/jcr:content | inurl:/libs/granite | inurl:/etc/clientlibs | inurl:/content/geometrixx | inurl:/bin/wcm | inurl:/crx/de site:example.com
 
 ### MONGODB INSTANCES WITH AUTH BYPASS
 
