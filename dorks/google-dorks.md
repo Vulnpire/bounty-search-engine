@@ -326,6 +326,7 @@ A list of Google Dorks for Bug Bounty.
 ### WAYBACK MACHINE
 
 > https://web.archive.org/web/*/example.com/*
+> https://web.archive.org/cdx/search/cdx?collapse=urlkey&url=*.example.com
 
 ### IP ADDRESSES
 
