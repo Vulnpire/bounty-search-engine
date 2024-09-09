@@ -87,6 +87,7 @@ A list of Google Dorks for Bug Bounty.
 > "example.com" site:dropbox.com/s
 > "example.com" site:box.com/s
 > "example.com" site:docs.google.com inurl:"/d/"
+> https://s3digger.com/#gsc.tab=0&gsc.q=example.com&gsc.sort=
 
 ### SQLI PRONE PARAMETERS
 
@@ -290,6 +291,12 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com inurl:zoom.us/j AND intext:scheduled for
 > site:example.com intitle:Test Page for the Nginx HTTP Server on Fedora
 > site:example.com intitle:"Swagger UI - " + "Show/Hide"
+> site:example.com filetype:php inurl:"/config/"
+> site:example.com filetype:js inurl:"/wp-content/"
+> site:example.com filetype:json inurl:"/api/"
+> site:example.com intitle:"index of" "backup" OR "config" filetype:bak
+> site:example.com filetype:php inurl:"/admin/" intext:"password"
+> site:example.com filetype:json intext:"api_key" OR intext:"access_token"
 
 ### NVIDIA JETSON DEVICES
 
