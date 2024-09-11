@@ -297,6 +297,25 @@ A list of Google Dorks for Bug Bounty.
 > site:example.com intitle:"index of" "backup" OR "config" filetype:bak
 > site:example.com filetype:php inurl:"/admin/" intext:"password"
 > site:example.com filetype:json intext:"api_key" OR intext:"access_token"
+> site:example.com filetype:pdf intext:"SSN" OR intext:"Social Security"
+
+### EXPOSED TECHNICAL DOCS
+
+> site:example.com filetype:pdf intext:"penetration test" OR intext:"pentest report"
+> site:example.com filetype:pdf intext:"vulnerability assessment" OR intext:"security audit"
+> site:example.com filetype:pdf intext:"compliance report"
+> site:example.com filetype:pdf intext:"database schema" OR intext:"table structure"
+> site:example.com filetype:pdf inurl:"/reports/" intext:"Created by" OR intext:"Author"
+> site:example.com filetype:pdf intext:"change log" OR intext:"revision history"
+> site:example.com filetype:pdf intext:"financial statement" OR intext:"balance sheet"
+> site:example.com filetype:pdf intext:"settlement agreement" OR intext:"contract"
+> site:example.com filetype:pdf intext:"audit report" OR intext:"accounting"
+> site:example.com filetype:pdf intext:"employee records" OR intext:"performance review"
+> site:example.com filetype:pdf intext:"network architecture" OR intext:"system diagram"
+> site:example.com filetype:pdf intext:"IP address" OR intext:"server configuration"
+> site:example.com filetype:pdf intext:"<script>" OR intext:"JavaScript"
+> site:example.com filetype:pdf intext:"obsolete" OR intext:"archived" OR intext:"deprecated"
+> site:example.com filetype:pdf intext:"not for public release" OR intext:"outdated"
 
 ### NVIDIA JETSON DEVICES
 
