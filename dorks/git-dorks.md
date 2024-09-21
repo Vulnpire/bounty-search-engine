@@ -12,6 +12,8 @@ A list of Github Dorks for Bug Bounty.
 
 > example.com+password
 
+> example.com+NOT+www.example.com+language:python+password
+
 ### SEARCH FOR NPMRC _AUTH
 
 > example.com+npmrc%20_auth
@@ -31,6 +33,7 @@ A list of Github Dorks for Bug Bounty.
 ### SEARCH FOR AWS_ACCESS_KEY_ID
 
 > example.com+aws_access_key_id
+> > example.com+NOT+www.example.com+language:javascript+aws_access
 
 ### SEARCH FOR S3CFG
 
