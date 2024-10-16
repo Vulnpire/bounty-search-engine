@@ -72,6 +72,12 @@ A list of Google Dorks for Bug Bounty.
 
 > site:example.com intitle:"Swagger UI" | inurl:"index.html" | inurl:"swagger" | inurl:"restapi" | inurl:"classicapi" | inurl:"api" | inurl:"apidocs" | inurl:"clicktrack" | inurl:"doc" | inurl:"static" | inurl:"documentation" | inurl:"openapi" | inurl:"explore" | inurl:"v1" | inurl:"v2" | inurl:"v3" | inurl:"v4" | inurl:"developer" | inurl:"apidoc" | inurl:"document" | inurl:"govpay" | inurl:"routes" | inurl:"application" | inurl:"graphql" | inurl:"playground" | inurl:"apis" | inurl:"public" | inurl:"schema" | inurl:"spec" | inurl:"gateway"
 
+### GRAPHQL
+
+> site:example.com inurl:"/graphql" intitle:"GraphQL Playground"
+> site:example.com inurl:"/graphql" intitle:"GraphiQL"
+> site:example.com "graphql" filetype:json OR filetype:html
+
 ### CLOUD STORAGE
 
 > site:example.com ("s3 bucket" | "bucket-name" | "s3.amazonaws.com" | "s3-us-west-2.amazonaws.com" | "s3.amazonaws.com/bucket-name" | "s3.amazonaws.com/bucket/" | "s3.amazonaws.com/bucket?prefix=" | "s3.amazonaws.com/bucket-name/")
@@ -262,10 +268,9 @@ A list of Google Dorks for Bug Bounty.
 
 ### PDF|DOC|XLS|CSV|PPT|TXT
 
-> site:example.com ext:pdf
+> site:example.com (ext:pdf | ext:csv)
 > site:example.com (ext:doc | ext:docx)
 > site:example.com (ext:xls | ext:xlsx)
-> site:example.com ext:csv
 > site:example.com (ext:ppt | ext:pptx)
 > site:example.com ext:txt
 
